@@ -78,6 +78,12 @@ const Login = () => {
             containerStyles="mt-7"
             isLoading={false}
           />
+          <Link
+            href="/location"
+            className="text-lg font-psemibold text-secondary"
+          >
+            Login
+          </Link>
 
           <View className="flex justify-center pt-5 flex-row gap-2">
             <Text className="text-lg text-gray-100 font-pregular">
