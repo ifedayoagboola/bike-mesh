@@ -84,13 +84,16 @@ const Register = () => {
             containerStyles="mt-7"
             isLoading={false}
           />
+          <Link href="/login" className="text-lg font-psemibold text-secondary">
+            Login
+          </Link>
 
           <View className="flex justify-center pt-5 flex-row gap-2">
             <Text className="text-lg text-gray-100 font-pregular">
               Don't have an account?
             </Text>
             <Link
-              href="/sign-up"
+              href="/register"
               className="text-lg font-psemibold text-secondary"
             >
               Register
