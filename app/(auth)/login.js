@@ -3,7 +3,7 @@ import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 
-import { images } from "../../constants";
+import { icons, images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
 // import { getCurrentUser, signIn } from "../../lib/appwrite";
 // import { useGlobalContext } from "../../context/GlobalProvider";
@@ -71,20 +71,32 @@ const Login = () => {
             handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
           />
+          <Link href="" className="self-end font-psemibold text-secondary">
+            Forgot password
+          </Link>
 
+          <View>
+            <Text className="self-center justify-center text-gray-500">
+              Login with
+            </Text>
+            <View className="flex-row py-2 justify-center gap-6">
+              <View className="p-2 bg-gray-500 rounded-full">
+                <Image source={icons.google} resizeMode="contain" />
+              </View>
+              <View className="p-2 bg-gray-500 rounded-full">
+                <Image source={icons.apple} resizeMode="contain" />
+              </View>
+              <View className="p-2 bg-gray-500 rounded-full">
+                <Image source={icons.facebook} resizeMode="contain" />
+              </View>
+            </View>
+          </View>
           <CustomButton
             title="Login"
             handlePress={submit}
             containerStyles="mt-7"
             isLoading={false}
           />
-          <Link
-            href="/location"
-            className="text-lg font-psemibold text-secondary"
-          >
-            Login
-          </Link>
-
           <View className="flex justify-center pt-5 flex-row gap-2">
             <Text className="text-lg text-gray-100 font-pregular">
               Don't have an account?

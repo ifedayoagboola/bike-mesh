@@ -13,6 +13,9 @@ import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
 import location from "../assets/icons/location.png";
 import history from "../assets/icons/history.png";
+import apple from "../assets/icons/apple.png";
+import facebook from "../assets/icons/facebook.png";
+import google from "../assets/icons/google.png";
 
 export default {
   play,
@@ -30,4 +33,7 @@ export default {
   eye,
   location,
   history,
+  apple,
+  facebook,
+  google,
 };

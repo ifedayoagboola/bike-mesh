@@ -3,7 +3,7 @@ import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 
-import { images } from "../../constants";
+import { icons, images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
 // import { getCurrentUser, signIn } from "../../lib/appwrite";
 // import { useGlobalContext } from "../../context/GlobalProvider";
@@ -58,10 +58,9 @@ const Register = () => {
           </Text>
           <FormField
             title="Username"
-            value={form.email}
-            handleChangeText={(e) => setForm({ ...form, email: e })}
-            otherStyles="mt-7"
-            keyboardType="email-address"
+            value={form.username}
+            handleChangeText={(e) => setForm({ ...form, username: e })}
+            otherStyles="mt-10"
           />
           <FormField
             title="Password"
@@ -77,6 +76,22 @@ const Register = () => {
             handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
           />
+          <View>
+            <Text className="self-center justify-center text-gray-500">
+              Login with
+            </Text>
+            <View className="flex-row py-2 justify-center gap-6">
+              <View className="p-2 bg-gray-500 rounded-full">
+                <Image source={icons.google} resizeMode="contain" />
+              </View>
+              <View className="p-2 bg-gray-500 rounded-full">
+                <Image source={icons.apple} resizeMode="contain" />
+              </View>
+              <View className="p-2 bg-gray-500 rounded-full">
+                <Image source={icons.facebook} resizeMode="contain" />
+              </View>
+            </View>
+          </View>
 
           <CustomButton
             title="Register"
@@ -84,22 +99,16 @@ const Register = () => {
             containerStyles="mt-7"
             isLoading={false}
           />
-          <Link href="/login" className="text-lg font-psemibold text-secondary">
-            Login
-          </Link>
-          <Link href="/login" className="text-lg font-psemibold text-secondary">
-            Register
-          </Link>
 
           <View className="flex justify-center pt-5 flex-row gap-2">
             <Text className="text-lg text-gray-100 font-pregular">
-              Don't have an account?
+              Already have an account?
             </Text>
             <Link
-              href="/register"
+              href="/login"
               className="text-lg font-psemibold text-secondary"
             >
-              Register
+              Login
             </Link>
           </View>
         </View>
