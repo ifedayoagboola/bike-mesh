@@ -75,11 +75,11 @@ const Login = () => {
             Forgot password
           </Link>
 
-          <View>
-            <Text className="self-center justify-center text-gray-500">
-              Login with
+          <View className="my-4">
+            <Text className="self-center pb-2 justify-center text-gray-500">
+              Or Login with
             </Text>
-            <View className="flex-row py-2 justify-center gap-6">
+            <View className="flex-row justify-center gap-6">
               <View className="p-2 bg-gray-500 rounded-full">
                 <Image source={icons.google} resizeMode="contain" />
               </View>
