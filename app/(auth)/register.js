@@ -5,37 +5,38 @@ import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 
 import { icons, images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
-// import { getCurrentUser, signIn } from "../../lib/appwrite";
-// import { useGlobalContext } from "../../context/GlobalProvider";
+import { createUser, getCurrentUser, signIn } from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Register = () => {
-  // const { setUser, setIsLogged } = useGlobalContext();
-  // const [isSubmitting, setSubmitting] = useState(false);
+  const { setUser, setIsLoggedIn } = useGlobalContext();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
+    username: "",
     email: "",
     password: "",
   });
 
   const submit = async () => {
-    if (form.email === "" || form.password === "") {
+    if (form.username === "" || form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
     }
 
-    // setSubmitting(true);
+    setIsSubmitting(true);
 
-    // try {
-    //   await Register(form.email, form.password);
-    //   const result = await getCurrentUser();
-    //   setUser(result);
-    //   setIsLogged(true);
+    try {
+      const result = await createUser(form.email, form.password, form.username);
 
-    //   Alert.alert("Success", "User signed in successfully");
-    //   router.replace("/home");
-    // } catch (error) {
-    //   Alert.alert("Error", error.message);
-    // } finally {
-    //   setSubmitting(false);
-    // }
+      setUser(result);
+      setIsLoggedIn(true);
+
+      Alert.alert("Success", "User signed in successfully");
+      router.replace("/location");
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -63,7 +64,7 @@ const Register = () => {
             otherStyles="mt-10"
           />
           <FormField
-            title="Password"
+            title="email"
             value={form.email}
             handleChangeText={(e) => setForm({ ...form, email: e })}
             otherStyles="mt-7"
@@ -71,7 +72,7 @@ const Register = () => {
           />
 
           <FormField
-            title="Confirm password"
+            title="password"
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"

@@ -5,16 +5,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "../constants";
 import { CustomButton, Loader } from "../components";
-// import { useGlobalContext } from "../context/GlobalProvider";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 const Welcome = () => {
-  // const { loading, isLogged } = useGlobalContext();
+  const { isLoading, isLoggedIn } = useGlobalContext();
 
-  // if (!loading && isLogged) return <Redirect href="/home" />;
+  if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      {/* <Loader isLoading={loading} /> */}
+      <Loader isLoading={isLoading} />
 
       <ScrollView
         contentContainerStyle={{
@@ -54,7 +54,7 @@ const Welcome = () => {
 
           <CustomButton
             title="Skip Demo"
-            handlePress={() => router.push("/login")}
+            handlePress={() => router.push("/register")}
             containerStyles="w-full mt-7"
           />
         </View>
