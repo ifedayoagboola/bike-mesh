@@ -5,6 +5,7 @@ import { Image, Text, View } from "react-native";
 import { icons } from "../../constants";
 import { Loader } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import Icon from "../../components/Icon";
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
@@ -51,11 +52,12 @@ const TabLayout = () => {
             title: "History",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.history}
-                color={color}
-                name="History"
+              <Icon
+                icon="history"
+                backgroundColor=""
+                title="History"
                 focused={focused}
+                color={color}
               />
             ),
           }}
@@ -66,11 +68,12 @@ const TabLayout = () => {
             title: "Location",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.location}
-                color={color}
-                name="Location"
+              <Icon
+                icon="map-marker"
+                backgroundColor=""
+                title="Location"
                 focused={focused}
+                color={color}
               />
             ),
           }}
@@ -81,11 +84,12 @@ const TabLayout = () => {
             title: "Profile",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.profile}
-                color={color}
-                name="Profile"
+              <Icon
+                icon="account"
+                backgroundColor=""
+                title="Profile"
                 focused={focused}
+                color={color}
               />
             ),
           }}

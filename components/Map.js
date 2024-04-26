@@ -5,7 +5,7 @@ import { StyleSheet, View } from "react-native";
 const Map = () => {
   return (
     <MapView
-      style={styles.map}
+      style={styles.container}
       initialRegion={{
         latitude: 37.78825,
         longitude: -122.4324,

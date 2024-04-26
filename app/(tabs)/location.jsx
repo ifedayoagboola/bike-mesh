@@ -15,7 +15,31 @@ const menuItems = [
     title: "Trek Domane SLR",
     subtitle: "Near Belfast city centre Since 12:30pm",
     icon: {
-      name: "image",
+      name: "bike",
+      backgroundColor: colors.primary,
+    },
+  },
+  {
+    title: "Trek Domane SLR",
+    subtitle: "Near Belfast city centre Since 12:30pm",
+    icon: {
+      name: "truck",
+      backgroundColor: colors.primary,
+    },
+  },
+  {
+    title: "Trek Domane SLR",
+    subtitle: "Near Belfast city centre Since 12:30pm",
+    icon: {
+      name: "bicycle",
+      backgroundColor: colors.primary,
+    },
+  },
+  {
+    title: "Trek Domane SLR",
+    subtitle: "Near Belfast city centre Since 12:30pm",
+    icon: {
+      name: "car",
       backgroundColor: colors.primary,
     },
   },
@@ -24,7 +48,7 @@ const menuItems = [
     title: "Giant TCR Advanced",
     subtitle: "Near Duncregan Village centre Since 01:52pm",
     icon: {
-      name: "image",
+      name: "bicycle",
       backgroundColor: colors.secondary,
     },
     targetScreen: "/profile",
@@ -33,12 +57,15 @@ const menuItems = [
 
 function Location() {
   return (
-    <SafeAreaView style={styles.screen} className="flex-1">
-      <View className="flex-auto h-full w-full">
+    <View style={styles.screen} className="">
+      <View className="h-2/3">
         <Map />
       </View>
 
-      <View style={styles.container} className="bg-black p-4 rounded-2xl">
+      <View
+        style={styles.container}
+        className="bg-[#161622] p-4 rounded-t-2xl h-1/3"
+      >
         <Text className="text-secondary font-psemibold text-2xl pl-4 py-2">
           Assets
         </Text>
@@ -62,8 +89,7 @@ function Location() {
           )}
         />
       </View>
-      <StatusBar backgroundColor="#161622" style={colors.light} hidden={true} />
-    </SafeAreaView>
+    </View>
   );
 }
 
