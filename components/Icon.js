@@ -10,6 +10,7 @@ function Icon({
   color,
   backgroundColor = "#000",
   iconColor = "#fff",
+  ...args
 }) {
   return (
     <View className="flex items-center justify-center gap-2">

@@ -2,17 +2,16 @@ import React from "react";
 import { StyleSheet, View, FlatList, Text } from "react-native";
 
 import Icon from "../../components/Icon";
-import { SafeAreaView } from "react-native-safe-area-context";
 import ListItem from "../../components/ListItem";
 import ListItemSeparator from "../../components/ListItemSeparator";
 import { router } from "expo-router";
 import colors from "../../config/colors";
 import Map from "../../components/Map";
-import { StatusBar } from "expo-status-bar";
 
 const menuItems = [
   {
-    title: "Trek Domane SLR",
+    id: 1,
+    title: "Lauren's bike",
     subtitle: "Near Belfast city centre Since 12:30pm",
     icon: {
       name: "bike",
@@ -20,7 +19,8 @@ const menuItems = [
     },
   },
   {
-    title: "Trek Domane SLR",
+    id: 2,
+    title: "Company truck",
     subtitle: "Near Belfast city centre Since 12:30pm",
     icon: {
       name: "truck",
@@ -28,7 +28,8 @@ const menuItems = [
     },
   },
   {
-    title: "Trek Domane SLR",
+    id: 3,
+    title: "Ride to work scheme HR",
     subtitle: "Near Belfast city centre Since 12:30pm",
     icon: {
       name: "bicycle",
@@ -36,7 +37,8 @@ const menuItems = [
     },
   },
   {
-    title: "Trek Domane SLR",
+    id: 4,
+    title: "My Tesla",
     subtitle: "Near Belfast city centre Since 12:30pm",
     icon: {
       name: "car",
@@ -45,6 +47,7 @@ const menuItems = [
   },
 
   {
+    id: 5,
     title: "Giant TCR Advanced",
     subtitle: "Near Duncregan Village centre Since 01:52pm",
     icon: {
@@ -79,8 +82,9 @@ function Location() {
               title={item.title}
               IconComponent={
                 <Icon
-                  name={item.icon.name}
-                  backgroundColor={item.icon.backgroundColor}
+                  icon={item.icon.name}
+                  backgroundColor={colors.light}
+                  color={colors.medium}
                 />
               }
               subTitle={item.subtitle}

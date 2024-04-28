@@ -5,8 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const History = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text className="text-secondary-100">History</Text>
-      {/* <StatusBar style="auto" /> */}
+      <AssetCard />
     </SafeAreaView>
   );
 };

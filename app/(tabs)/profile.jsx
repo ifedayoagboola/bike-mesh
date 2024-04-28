@@ -11,7 +11,7 @@ const menuItems = [
   {
     title: "Account Details",
     icon: {
-      name: "format-list-bulleted",
+      name: "account",
       backgroundColor: colors.primary,
     },
   },
@@ -66,7 +66,8 @@ function Profile({ navigation }) {
               title={item.title}
               IconComponent={
                 <Icon
-                  name={item.icon.name}
+                  icon={item.icon.name}
+                  color={colors.secondary}
                   backgroundColor={item.icon.backgroundColor}
                 />
               }
@@ -77,7 +78,9 @@ function Profile({ navigation }) {
       </View>
       <ListItem
         title="Log Out"
-        IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+        IconComponent={
+          <Icon icon="logout" backgroundColor="#ffe66d" color={colors.light} />
+        }
       />
     </SafeAreaView>
   );
@@ -86,6 +89,7 @@ function Profile({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.dark,
+    flex: 1,
   },
   container: {
     marginVertical: 20,
