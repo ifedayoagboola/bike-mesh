@@ -7,6 +7,7 @@ import logo2 from "../assets/images/logo2.png";
 import demo from "../assets/images/demo.jpeg";
 import logoSmall from "../assets/images/logo-small.png";
 import empty from "../assets/images/empty.png";
+import bicycle from "../assets/images/bicycle.png";
 
 export default {
   profile,
@@ -18,4 +19,5 @@ export default {
   logoSmall,
   empty,
   demo,
+  bicycle,
 };

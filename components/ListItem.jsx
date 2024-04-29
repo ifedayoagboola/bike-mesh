@@ -13,7 +13,7 @@ function ListItem({
   IconComponent,
   onPress,
   renderRightActions,
-  righArrowIcon,
+  rightArrowIcon,
   ...args
 }) {
   return (
@@ -37,7 +37,7 @@ function ListItem({
                 </Text>
               )}
             </View>
-            {righArrowIcon && (
+            {rightArrowIcon && (
               <MaterialCommunityIcons
                 color={colors.medium}
                 name="chevron-right"
