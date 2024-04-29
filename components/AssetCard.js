@@ -2,67 +2,34 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   Image,
   StyleSheet,
-  Text,
   TouchableHighlight,
   TouchableOpacity,
   View,
 } from "react-native";
+import Text from "../components/Text";
 import { images } from "../constants";
 import ListItem from "./ListItem";
 import colors from "../config/colors";
 
-const assets = [
-  {
-    id: 1,
-    assetName: "Giant TCR Advanced",
-    assetType: "bicycle",
-    lastSeen: "Near Duncregan Village centre Since 01:52pm",
-    icon: "bicycle",
-  },
-  {
-    id: 2,
-    assetName: "Giant TCR Advanced",
-    assetType: "bicycle",
-    lastSeen: "Near Duncregan Village centre Since 01:52pm",
-    icon: "bicycle",
-  },
-  {
-    id: 3,
-    assetName: "Giant TCR Advanced",
-    assetType: "bicycle",
-    lastSeen: "Near Duncregan Village centre Since 01:52pm",
-    icon: "bicycle",
-  },
-  {
-    id: 4,
-    assetName: "Giant TCR Advanced",
-    assetType: "bicycle",
-    lastSeen: "Near Duncregan Village centre Since 01:52pm",
-    icon: "bicycle",
-  },
-  {
-    id: 5,
-    assetName: "Giant TCR Advanced",
-    assetType: "bicycle",
-    lastSeen: "Near Duncregan Village centre Since 01:52pm",
-    icon: "bicycle",
-  },
-];
-
 const AssetCard = ({ item }) => {
   return (
-    <View className="items-center justify-center border border-gray-200">
-      <Image
-        source={images.bicycle}
-        resizeMode="contain"
-        className="w-[120px] h-[120px]"
-      />
-      <Text className="text-white font-pregular text-base">
-        Giant TCR Advanced
-      </Text>
-      <TouchableOpacity>
-        <View className="flex-row">
-          <Text className="text-secondary font-pregular text-base">
+    <TouchableOpacity className="flex-1">
+      <View className="items-center justify-center border border-gray-200 p-2 m-2 space-y-4">
+        <Image
+          source={images.bicycle}
+          resizeMode="contain"
+          className="w-[80px] h-[80px]"
+        />
+
+        <Text
+          style={{ flexShrink: 1 }}
+          className="text-white font-pregular text-sm"
+        >
+          {item.assetName}
+        </Text>
+
+        <View className="flex-row items-center justify-center">
+          <Text className="text-secondary font-pregular text-sm">
             Make Claim
           </Text>
           <MaterialCommunityIcons
@@ -71,8 +38,8 @@ const AssetCard = ({ item }) => {
             size={25}
           />
         </View>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
