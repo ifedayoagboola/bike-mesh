@@ -42,6 +42,9 @@ const History = () => {
       lastSeen: "Near Duncregan Village centre Since 01:52pm",
       icon: "bicycle",
     },
+    {
+      id: 5,
+    },
   ];
 
   return (
@@ -56,9 +59,10 @@ const History = () => {
         data={assets}
         keyExtractor={(item) => item.id.toString()}
         numColumns="2"
-        renderItem={({ item }) => <AssetCard item={item} />}
+        renderItem={({ item }) =>
+          item.assetName ? <AssetCard item={item} /> : <AddAsset />
+        }
       />
-
       {/* <AddAsset /> */}
     </SafeAreaView>
   );

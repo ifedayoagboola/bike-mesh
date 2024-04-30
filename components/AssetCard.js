@@ -14,7 +14,7 @@ import colors from "../config/colors";
 const AssetCard = ({ item }) => {
   return (
     <TouchableOpacity className="flex-1">
-      <View className="items-center justify-center border border-gray-200 p-2 m-2 space-y-4">
+      <View className="items-center justify-center border border-gray-600 rounded-md p-2 m-2 space-y-4">
         <Image
           source={images.bicycle}
           resizeMode="contain"
@@ -29,13 +29,13 @@ const AssetCard = ({ item }) => {
         </Text>
 
         <View className="flex-row items-center justify-center">
-          <Text className="text-secondary font-pregular text-sm">
+          <Text className="text-secondary font-pregular text-xs">
             Make Claim
           </Text>
           <MaterialCommunityIcons
             color={colors.secondary}
             name="chevron-right"
-            size={25}
+            size={15}
           />
         </View>
       </View>
