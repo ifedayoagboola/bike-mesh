@@ -7,7 +7,7 @@ import colors from "../config/colors";
 const AddAsset = () => {
   return (
     <TouchableOpacity>
-      <View className="items-center justify-center border border-secondary h-[180px] w-[145px] m-2 self-center rounded-lg">
+      <View className="items-center justify-center border border-secondary h-[185px] w-[147px] m-2 self-center rounded-lg">
         <MaterialCommunityIcons
           color={colors.secondary}
           name="plus"
