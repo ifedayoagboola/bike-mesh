@@ -24,7 +24,8 @@
     "react-native-screens": "~3.29.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-gesture-handler": "~2.14.0",
-    "react-native-maps": "1.10.0"
+    "react-native-maps": "1.10.0",
+    "expo-updates": "~0.24.12"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
