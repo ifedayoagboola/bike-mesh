@@ -58,7 +58,7 @@ const menuItems = [
   },
 ];
 
-function Location() {
+const Location = () => {
   return (
     <View style={styles.screen} className="">
       <View className="h-2/3">
@@ -95,7 +95,7 @@ function Location() {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   screen: {

@@ -46,7 +46,7 @@ const menuItems = [
   },
 ];
 
-function Profile({ navigation }) {
+const Profile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
@@ -84,7 +84,7 @@ function Profile({ navigation }) {
       />
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   screen: {
