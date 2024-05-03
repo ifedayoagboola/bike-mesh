@@ -7,7 +7,7 @@ import { images } from "../constants";
 import { CustomButton, Loader } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
 
-const Welcome = () => {
+const index = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
 
   if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
@@ -65,4 +65,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default index;
