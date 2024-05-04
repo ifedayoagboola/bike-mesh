@@ -7,10 +7,10 @@ import { images } from "../constants";
 import { CustomButton, Loader } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
 
-const index = () => {
+const Welcome = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
 
-  if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
+  // if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -65,4 +65,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Welcome;
