@@ -22,7 +22,7 @@ const Welcome = () => {
         }}
       >
         <View className="w-full flex justify-center items-center h-full px-4">
-          <Image
+          {/* <Image
             source={images.logo2}
             className="w-[130px] h-[84px]"
             resizeMode="contain"
@@ -45,7 +45,7 @@ const Welcome = () => {
               className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
               resizeMode="contain"
             />
-          </View>
+          </View> */}
 
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
             Where Creativity Meets Innovation: Embark on a Journey of
