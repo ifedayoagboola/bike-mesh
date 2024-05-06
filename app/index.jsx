@@ -1,20 +1,20 @@
 import { StatusBar } from "expo-status-bar";
-// import { Redirect, router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { View, Text, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "../constants";
-// import { CustomButton, Loader } from "../components";
-// import { useGlobalContext } from "../context/GlobalProvider";
+import { CustomButton, Loader } from "../components";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 const Welcome = () => {
-  // const { isLoading, isLoggedIn } = useGlobalContext();
+  const { isLoading, isLoggedIn } = useGlobalContext();
 
-  // if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
+  if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      {/* <Loader isLoading={isLoading} /> */}
+      <Loader isLoading={isLoading} />
 
       <ScrollView
         contentContainerStyle={{
@@ -22,7 +22,7 @@ const Welcome = () => {
         }}
       >
         <View className="w-full flex justify-center items-center h-full px-4">
-          {/* <Image
+          <Image
             source={images.logo2}
             className="w-[130px] h-[84px]"
             resizeMode="contain"
@@ -45,18 +45,18 @@ const Welcome = () => {
               className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
               resizeMode="contain"
             />
-          </View> */}
+          </View>
 
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
             Where Creativity Meets Innovation: Embark on a Journey of
             Exploration with Bike Mesh
           </Text>
 
-          {/* <CustomButton
+          <CustomButton
             title="Skip Demo"
             handlePress={() => router.push("/register")}
             containerStyles="w-full mt-7"
-          /> */}
+          />
         </View>
       </ScrollView>
 
