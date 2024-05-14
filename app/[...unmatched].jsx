@@ -15,14 +15,14 @@ export default function Unmatched() {
         <Text className="text-base font-semibold text-black">
           404 Not Found!
         </Text>
-        <Image
+        {/* <Image
           style={{
             width: "100%",
             resizeMode: "contain",
           }}
           source={require("@/assets/page-not-found.png")}
           alt="404"
-        />
+        /> */}
       </View>
     </>
 
