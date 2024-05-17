@@ -70,7 +70,7 @@ const Location = () => {
         className="bg-[#161622] p-4 rounded-t-2xl h-1/3"
       >
         <Text className="text-secondary font-psemibold text-2xl pl-4 py-2">
-          Assets
+          Assets Updated
         </Text>
 
         <FlatList
