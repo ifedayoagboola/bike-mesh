@@ -15,16 +15,21 @@ const Welcome = () => {
   if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
 
   useEffect(() => {
-    reactToUpdates();
-  }, []);
-
-  const reactToUpdates = async () => {
-    Updates.addListener((event) => {
-      if (event.type === Updates.UpdateEventType.UPDATE_AVAILABLE) {
-        Updates.reloadAsync();
+    async function checkForUpdates() {
+      try {
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync();
+          // Optionally, you can notify the user or reload the app to apply the update
+          Updates.reloadAsync();
+        }
+      } catch (error) {
+        console.error("Error checking for updates:", error);
       }
-    });
-  };
+    }
+
+    checkForUpdates();
+  }, []);
 
   return (
     <SafeAreaView className="bg-primary h-full">
