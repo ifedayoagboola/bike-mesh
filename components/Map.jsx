@@ -8,7 +8,7 @@ const ForwardedMapView = forwardRef((props, ref) => (
 ));
 
 const Map = () => {
-  const mapRef = React.useRef(null);
+  const mapRef = React.useRef({ PROVIDER_GOOGLE });
   return (
     <ForwardedMapView
       ref={mapRef}
