@@ -27,8 +27,8 @@ importers:
         specifier: ~1.12.1
         version: 1.12.1
       expo-updates:
-        specifier: ~0.25.13
-        version: 0.25.13(expo@51.0.7(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))
+        specifier: ~0.25.14
+        version: 0.25.14(expo@51.0.7(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5)))
       nativewind:
         specifier: ^2.0.11
         version: 2.0.11(react@18.2.0)(tailwindcss@3.4.3)
@@ -51,7 +51,7 @@ importers:
         specifier: ~2.16.1
         version: 2.16.2(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(react@18.2.0))(react@18.2.0)
       react-native-maps:
-        specifier: 1.14.0
+        specifier: ^1.14.0
         version: 1.14.0(react-native-web@0.19.11(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(react@18.2.0))(react@18.2.0)
       react-native-safe-area-context:
         specifier: 4.10.1
@@ -2098,8 +2098,8 @@ packages:
     peerDependencies:
       expo: '*'
 
-  expo-updates@0.25.13:
-    resolution: {integrity: sha512-RPzI+UFJ8u/Jp4vgDvN6rfWznCrK+uerg5g80Sy2vJDLk3GlIbirjoXryMJNHJTrLPOSsO2kZxPe+Bk75eANVQ==}
+  expo-updates@0.25.14:
+    resolution: {integrity: sha512-taYa6Q/882MxPaMZEoU0Tr4Ivtq0B0XUmCgj7GcKv0pDDhB7vuQ4uxXhWYn5udX+nJM0KH+dtEVFNVyeucVArg==}
     hasBin: true
     peerDependencies:
       expo: '*'
@@ -7085,7 +7085,7 @@ snapshots:
     dependencies:
       expo: 51.0.7(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))
 
-  expo-updates@0.25.13(expo@51.0.7(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))):
+  expo-updates@0.25.14(expo@51.0.7(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))):
     dependencies:
       '@expo/code-signing-certificates': 0.0.5
       '@expo/config': 9.0.1

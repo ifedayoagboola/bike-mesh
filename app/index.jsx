@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import * as Updates from "expo-updates";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
 import { View, Text, Image, ScrollView } from "react-native";
@@ -11,6 +13,18 @@ const Welcome = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
 
   if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
+
+  useEffect(() => {
+    reactToUpdates();
+  }, []);
+
+  const reactToUpdates = async () => {
+    Updates.addListener((event) => {
+      if (event.type === Updates.UpdateEventType.UPDATE_AVAILABLE) {
+        Updates.reloadAsync();
+      }
+    });
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -37,7 +51,10 @@ const Welcome = () => {
           <View className="relative mt-5">
             <Text className="text-3xl text-white font-bold text-center">
               Track your bicycles{"\n"}
-              with <Text className="text-secondary-200">Bike Mesh</Text>
+              with
+              <Text className="text-secondary-200">
+                Bike Mesh react to update
+              </Text>
             </Text>
 
             <Image
