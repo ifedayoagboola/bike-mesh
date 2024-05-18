@@ -38,9 +38,7 @@ const Welcome = () => {
             <Text className="text-3xl text-white font-bold text-center">
               Track your bicycles{"\n"}
               with
-              <Text className="text-secondary-200">
-                Bike Mesh react to update
-              </Text>
+              <Text className="text-secondary-200">Bike Mesh</Text>
             </Text>
 
             <Image
