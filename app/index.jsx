@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import * as Updates from "expo-updates";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
 import { View, Text, Image, ScrollView } from "react-native";
@@ -13,23 +11,6 @@ const Welcome = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
 
   if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
-
-  useEffect(() => {
-    async function checkForUpdates() {
-      try {
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-          await Updates.fetchUpdateAsync();
-          // Optionally, you can notify the user or reload the app to apply the update
-          Updates.reloadAsync();
-        }
-      } catch (error) {
-        console.error("Error checking for updates:", error);
-      }
-    }
-
-    checkForUpdates();
-  }, []);
 
   return (
     <SafeAreaView className="bg-primary h-full">
