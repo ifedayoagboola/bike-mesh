@@ -17,6 +17,7 @@
     },
     "androidapk": {
       "android": {
+        "image": "latest",
         "buildType": "apk"
       },
       "channel": "androidapk"
