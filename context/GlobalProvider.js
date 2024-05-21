@@ -10,22 +10,22 @@ const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    async function checkForUpdates() {
-      try {
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-          await Updates.fetchUpdateAsync();
-          // Optionally, you can notify the user or reload the app to apply the update
-          Updates.reloadAsync();
-        }
-      } catch (error) {
-        console.error("Error checking for updates:", error);
-      }
-    }
+  // useEffect(() => {
+  //   async function checkForUpdates() {
+  //     try {
+  //       const update = await Updates.checkForUpdateAsync();
+  //       if (update.isAvailable) {
+  //         await Updates.fetchUpdateAsync();
+  //         // Optionally, you can notify the user or reload the app to apply the update
+  //         Updates.reloadAsync();
+  //       }
+  //     } catch (error) {
+  //       console.error("Error checking for updates:", error);
+  //     }
+  //   }
 
-    checkForUpdates();
-  }, []);
+  //   checkForUpdates();
+  // }, []);
 
   useEffect(() => {
     getCurrentUser()
