@@ -39,6 +39,7 @@
       "router": {
         "origin": false
       },
+
       "eas": {
         "projectId": "f160dd12-9fc4-4319-b37b-1314561ae8f5"
       }
@@ -49,6 +50,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/f160dd12-9fc4-4319-b37b-1314561ae8f5"
-    }
+    },
+    "owner": "ifedayoagboola19"
   }
 }
