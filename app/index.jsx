@@ -9,6 +9,7 @@ import { CustomButton, Loader } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 import Onboarding from "react-native-onboarding-swiper";
+import SplashScreen from "../components/SplashScreen";
 
 const Welcome = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
@@ -65,40 +66,42 @@ const Welcome = () => {
     //   </ScrollView>
     // </SafeAreaView>
 
-    <Onboarding
-      pages={[
-        {
-          backgroundColor: "#fff",
-          image: (
-            <View>
-              <Text>Onboarding screen 1</Text>
-            </View>
-          ),
-          title: "Onboarding",
-          subtitle: "Done with React Native Onboarding Swiper",
-        },
-        {
-          backgroundColor: "#fff",
-          image: (
-            <View>
-              <Text>Onboarding screen 1</Text>
-            </View>
-          ),
-          title: "Onboarding",
-          subtitle: "Done with React Native Onboarding Swiper",
-        },
-        {
-          backgroundColor: "#fff",
-          image: (
-            <View>
-              <Text>Onboarding screen 1</Text>
-            </View>
-          ),
-          title: "Onboarding",
-          subtitle: "Done with React Native Onboarding Swiper",
-        },
-      ]}
-    />
+    // <Onboarding
+    //   pages={[
+    //     {
+    //       backgroundColor: "#fff",
+    //       image: (
+    //         <View>
+    //           <Text>Onboarding screen 1</Text>
+    //         </View>
+    //       ),
+    //       title: "Onboarding",
+    //       subtitle: "Done with React Native Onboarding Swiper",
+    //     },
+    //     {
+    //       backgroundColor: "#fff",
+    //       image: (
+    //         <View>
+    //           <Text>Onboarding screen 1</Text>
+    //         </View>
+    //       ),
+    //       title: "Onboarding",
+    //       subtitle: "Done with React Native Onboarding Swiper",
+    //     },
+    //     {
+    //       backgroundColor: "#fff",
+    //       image: (
+    //         <View>
+    //           <Text>Onboarding screen 1</Text>
+    //         </View>
+    //       ),
+    //       title: "Onboarding",
+    //       subtitle: "Done with React Native Onboarding Swiper",
+    //     },
+    //   ]}
+    // />
+
+    <SplashScreen />
   );
 };
 

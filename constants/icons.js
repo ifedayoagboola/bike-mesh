@@ -16,6 +16,7 @@ import history from "../assets/icons/history.png";
 import apple from "../assets/icons/apple.png";
 import facebook from "../assets/icons/facebook.png";
 import google from "../assets/icons/google.png";
+import appIcon from "../assets/icons/app-icon.png";
 
 export default {
   play,
@@ -36,4 +37,5 @@ export default {
   apple,
   facebook,
   google,
+  appIcon,
 };
