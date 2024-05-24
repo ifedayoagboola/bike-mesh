@@ -1,4 +1,12 @@
-import { View, ActivityIndicator, Dimensions, Platform } from "react-native";
+import {
+  View,
+  ActivityIndicator,
+  Dimensions,
+  Platform,
+  Text,
+  Image,
+} from "react-native";
+import { icons } from "../constants";
 
 const Loader = ({ isLoading }) => {
   const osName = Platform.OS;
@@ -13,11 +21,16 @@ const Loader = ({ isLoading }) => {
         height: screenHeight,
       }}
     >
-      <ActivityIndicator
+      <Image
+        source={icons.loading}
+        resizeMode="contain"
+        className="w-[150px] h-[150px]"
+      />
+      {/* <ActivityIndicator
         animating={isLoading}
         color="#fff"
         size={osName === "ios" ? "large" : 50}
-      />
+      /> */}
     </View>
   );
 };

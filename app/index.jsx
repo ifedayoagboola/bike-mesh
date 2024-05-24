@@ -65,43 +65,48 @@ const Welcome = () => {
     //     </View>
     //   </ScrollView>
     // </SafeAreaView>
-
-    <Onboarding
-      pages={[
-        {
-          backgroundColor: "#fff",
-          image: (
-            <View>
-              <Text>Onboarding screen 1</Text>
-            </View>
-          ),
-          title: "Onboarding",
-          subtitle: "Done with React Native Onboarding Swiper",
-        },
-        {
-          backgroundColor: "#fff",
-          image: (
-            <View>
-              <Text>Onboarding screen 1</Text>
-            </View>
-          ),
-          title: "Onboarding",
-          subtitle: "Done with React Native Onboarding Swiper",
-        },
-        {
-          backgroundColor: "#fff",
-          image: (
-            <View>
-              <Text>Onboarding screen 1</Text>
-            </View>
-          ),
-          title: "Onboarding",
-          subtitle: "Done with React Native Onboarding Swiper",
-        },
-      ]}
-    />
-
-    // <SplashScreen />
+    <>
+      <Loader isLoading={isLoading} />
+      <Onboarding
+        pages={[
+          {
+            backgroundColor: "yellow",
+            image: (
+              <View>
+                <Image
+                  source={images.onboarding1}
+                  resizeMode="contain"
+                  className="w-[350px] h-[350px]"
+                />
+              </View>
+            ),
+            title: "Install Tracker",
+            subtitle:
+              "First, remove handle bars and carefully install the Bike-mesh tracking device",
+          },
+          {
+            backgroundColor: "#fff",
+            image: (
+              <View>
+                <Text>Onboarding screen 1</Text>
+              </View>
+            ),
+            title: "Onboarding",
+            subtitle: "Done with React Native Onboarding Swiper",
+          },
+          {
+            backgroundColor: "#fff",
+            image: (
+              <View>
+                <Text>Onboarding screen 1</Text>
+              </View>
+            ),
+            title: "Onboarding",
+            subtitle: "Done with React Native Onboarding Swiper",
+          },
+        ]}
+      />
+    </>
   );
 };
 
