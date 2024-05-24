@@ -9,7 +9,7 @@
     "icon": "./assets/icons/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/Splash-screen2.png",
+      "image": "./assets/images/Splash-screen.png",
       "resizeMode": "cover",
       "backgroundColor": "#000"
     },
@@ -22,7 +22,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/logo.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000"
       },
       "package": "com.cofounders.bikemesh",
       "config": {
