@@ -66,42 +66,42 @@ const Welcome = () => {
     //   </ScrollView>
     // </SafeAreaView>
 
-    // <Onboarding
-    //   pages={[
-    //     {
-    //       backgroundColor: "#fff",
-    //       image: (
-    //         <View>
-    //           <Text>Onboarding screen 1</Text>
-    //         </View>
-    //       ),
-    //       title: "Onboarding",
-    //       subtitle: "Done with React Native Onboarding Swiper",
-    //     },
-    //     {
-    //       backgroundColor: "#fff",
-    //       image: (
-    //         <View>
-    //           <Text>Onboarding screen 1</Text>
-    //         </View>
-    //       ),
-    //       title: "Onboarding",
-    //       subtitle: "Done with React Native Onboarding Swiper",
-    //     },
-    //     {
-    //       backgroundColor: "#fff",
-    //       image: (
-    //         <View>
-    //           <Text>Onboarding screen 1</Text>
-    //         </View>
-    //       ),
-    //       title: "Onboarding",
-    //       subtitle: "Done with React Native Onboarding Swiper",
-    //     },
-    //   ]}
-    // />
+    <Onboarding
+      pages={[
+        {
+          backgroundColor: "#fff",
+          image: (
+            <View>
+              <Text>Onboarding screen 1</Text>
+            </View>
+          ),
+          title: "Onboarding",
+          subtitle: "Done with React Native Onboarding Swiper",
+        },
+        {
+          backgroundColor: "#fff",
+          image: (
+            <View>
+              <Text>Onboarding screen 1</Text>
+            </View>
+          ),
+          title: "Onboarding",
+          subtitle: "Done with React Native Onboarding Swiper",
+        },
+        {
+          backgroundColor: "#fff",
+          image: (
+            <View>
+              <Text>Onboarding screen 1</Text>
+            </View>
+          ),
+          title: "Onboarding",
+          subtitle: "Done with React Native Onboarding Swiper",
+        },
+      ]}
+    />
 
-    <SplashScreen />
+    // <SplashScreen />
   );
 };
 

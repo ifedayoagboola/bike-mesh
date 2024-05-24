@@ -1,14 +1,18 @@
 {
   "expo": {
-    "name": "bike-mesh",
+    "name": "Bike Mesh",
     "slug": "bike-mesh",
     "description": "The best asset tracker app alive",
     "scheme": "bike-mesh",
     "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icons/app-icon.png",
+    "icon": "./assets/icons/logo.png",
     "userInterfaceStyle": "light",
-
+    "splash": {
+      "image": "./assets/images/Splash-screen2.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000"
+    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
@@ -17,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icons/logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.cofounders.bikemesh",
