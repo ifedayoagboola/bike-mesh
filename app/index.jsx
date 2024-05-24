@@ -68,6 +68,10 @@ const Welcome = () => {
     <>
       <Loader isLoading={isLoading} />
       <Onboarding
+        showSkip={false}
+        onDone={() => {
+          router.push("/register");
+        }}
         pages={[
           {
             backgroundColor: "yellow",
@@ -85,24 +89,34 @@ const Welcome = () => {
               "First, remove handle bars and carefully install the Bike-mesh tracking device",
           },
           {
-            backgroundColor: "#fff",
+            backgroundColor: "pink",
             image: (
               <View>
-                <Text>Onboarding screen 1</Text>
+                <Image
+                  source={images.onboarding1}
+                  resizeMode="contain"
+                  className="w-[350px] h-[350px]"
+                />
               </View>
             ),
-            title: "Onboarding",
-            subtitle: "Done with React Native Onboarding Swiper",
+            title: "Install Tracker",
+            subtitle:
+              "Second, remove handle bars and carefully install the Bike-mesh tracking device",
           },
           {
-            backgroundColor: "#fff",
+            backgroundColor: "pink",
             image: (
               <View>
-                <Text>Onboarding screen 1</Text>
+                <Image
+                  source={images.onboarding1}
+                  resizeMode="contain"
+                  className="w-[350px] h-[350px]"
+                />
               </View>
             ),
-            title: "Onboarding",
-            subtitle: "Done with React Native Onboarding Swiper",
+            title: "Install Tracker",
+            subtitle:
+              "Third, remove handle bars and carefully install the Bike-mesh tracking device",
           },
         ]}
       />
