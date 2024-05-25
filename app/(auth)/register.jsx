@@ -43,7 +43,7 @@ const Register = () => {
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
         <View
-          className="w-full flex justify-center h-full px-4 my-6"
+          className="w-full flex justify-center h-full px-4"
           style={{
             minHeight: Dimensions.get("window").height - 100,
           }}
@@ -53,15 +53,14 @@ const Register = () => {
             resizeMode="contain"
             className="w-[115px] h-[34px]"
           />
-
-          <Text className="text-4xl font-semibold text-white mt-10 font-pextrabold">
+          <Text className="text-3xl font-semibold text-white font-pextrabold">
             Create an account
           </Text>
           <FormField
             title="Username"
             value={form.username}
             handleChangeText={(e) => setForm({ ...form, username: e })}
-            otherStyles="mt-10"
+            otherStyles="mt-4"
           />
           <FormField
             title="email"
