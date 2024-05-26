@@ -49,11 +49,11 @@ const Register = () => {
           }}
         >
           <Image
-            source={images.logo2}
+            source={images.logo}
             resizeMode="contain"
             className="w-[115px] h-[34px]"
           />
-          <Text className="text-3xl font-semibold text-white font-pextrabold">
+          <Text className="text-3xl font-semibold text-white font-pextrabold py-2">
             Create an account
           </Text>
           <FormField
