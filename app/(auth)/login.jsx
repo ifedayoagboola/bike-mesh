@@ -42,10 +42,10 @@ const Login = () => {
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
         <View
-          className="w-full flex justify-center h-full px-4 my-6"
-          style={{
-            minHeight: Dimensions.get("window").height - 100,
-          }}
+          className="w-full flex justify-center h-full px-4"
+          // style={{
+          //   minHeight: Dimensions.get("window").height - 100,
+          // }}
         >
           <Image
             source={images.logo2}
@@ -80,13 +80,13 @@ const Login = () => {
               Or Login with
             </Text>
             <View className="flex-row justify-center gap-6">
-              <View className="p-2 bg-gray-500 rounded-full">
+              <View className="p-2 bg-gray-300 rounded-full">
                 <Image source={icons.google} resizeMode="contain" />
               </View>
-              <View className="p-2 bg-gray-500 rounded-full">
+              <View className="p-2 bg-gray-300 rounded-full">
                 <Image source={icons.apple} resizeMode="contain" />
               </View>
-              <View className="p-2 bg-gray-500 rounded-full">
+              <View className="p-2 bg-gray-300 rounded-full">
                 <Image source={icons.facebook} resizeMode="contain" />
               </View>
             </View>
@@ -103,7 +103,7 @@ const Login = () => {
             </Text>
             <Link
               href="/register"
-              className="text-lg font-psemibold text-secondary"
+              className="text-lg font-psemibold text-secondary self-end"
             >
               Register
             </Link>

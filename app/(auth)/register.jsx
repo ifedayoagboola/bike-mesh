@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 
 import { icons, images } from "../../constants";
-import { CustomButton, FormField } from "../../components";
+import { CustomButton, FormField, Loader } from "../../components";
 import { createUser, getCurrentUser, signIn } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
@@ -41,6 +41,7 @@ const Register = () => {
 
   return (
     <SafeAreaView className="bg-primary h-full">
+      <Loader isLoading={isSubmitting} />
       <ScrollView>
         <View
           className="w-full flex justify-center h-full px-4"
@@ -81,13 +82,13 @@ const Register = () => {
               Or Login with
             </Text>
             <View className="flex-row justify-center gap-6">
-              <View className="p-2 bg-gray-500 rounded-full">
+              <View className="p-2 bg-gray-300 rounded-full">
                 <Image source={icons.google} resizeMode="contain" />
               </View>
-              <View className="p-2 bg-gray-500 rounded-full">
+              <View className="p-2 bg-gray-300 rounded-full">
                 <Image source={icons.apple} resizeMode="contain" />
               </View>
-              <View className="p-2 bg-gray-500 rounded-full">
+              <View className="p-2 bg-gray-300 rounded-full">
                 <Image source={icons.facebook} resizeMode="contain" />
               </View>
             </View>
