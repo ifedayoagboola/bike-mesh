@@ -11,9 +11,9 @@ import { images } from "../constants";
 import ListItem from "./ListItem";
 import colors from "../config/colors";
 
-const AssetCard = ({ item }) => {
+const AssetCard = ({ item, onPress }) => {
   return (
-    <TouchableOpacity className="flex-1">
+    <TouchableOpacity className="flex-1" onPress={onPress}>
       <View className="items-center justify-center border border-gray-600 rounded-md p-2 m-2 space-y-4">
         <Image
           source={images.bicycle}

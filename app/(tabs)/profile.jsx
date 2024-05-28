@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "../../components/Icon";
 import ListItem from "../../components/ListItem";
 import ListItemSeparator from "../../components/ListItemSeparator";
+import { logout } from "../../lib/appwrite";
 
 const menuItems = [
   {
@@ -76,7 +77,11 @@ const Profile = ({ navigation }) => {
           )}
         />
       </View>
+
       <ListItem
+        onPress={(e) => {
+          logout(e);
+        }}
         title="Log Out"
         IconComponent={
           <Icon icon="logout" backgroundColor="#ffe66d" color={colors.light} />

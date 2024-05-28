@@ -4,6 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AssetCard from "../../components/AssetCard";
 import colors from "../../config/colors";
 import AddAsset from "../../components/AddAsset";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { router } from "expo-router";
 
 const History = () => {
   const assets = [
@@ -60,7 +62,14 @@ const History = () => {
         keyExtractor={(item) => item.id.toString()}
         numColumns="2"
         renderItem={({ item }) =>
-          item.assetName ? <AssetCard item={item} /> : <AddAsset />
+          item.assetName ? (
+            <AssetCard
+              item={item}
+              onPress={() => router.push("(tabs)/historyDetails")}
+            />
+          ) : (
+            <AddAsset />
+          )
         }
       />
       {/* <AddAsset /> */}

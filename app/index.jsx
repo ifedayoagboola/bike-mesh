@@ -10,11 +10,14 @@ import { useGlobalContext } from "../context/GlobalProvider";
 
 import Onboarding from "react-native-onboarding-swiper";
 import SplashScreen from "../components/SplashScreen";
+import { useEffect } from "react";
 
 const Welcome = () => {
-  const { isLoading, isLoggedIn, user } = useGlobalContext();
+  const { isLoading, isLoggedIn } = useGlobalContext();
 
   if (!isLoading && isLoggedIn) return <Redirect href="/location" />;
+  console.log(isLoading, isLoggedIn);
+
   return (
     // <SafeAreaView className="bg-primary h-full">
     //   <Loader isLoading={isLoading} />
