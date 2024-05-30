@@ -5,7 +5,7 @@ import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 
 import { icons, images } from "../../constants";
 import { CustomButton, FormField, Loader } from "../../components";
-import { getCurrentUser, signIn } from "../../lib/appwrite";
+import { getCurrentUser, logout, signIn } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Login = () => {
@@ -49,7 +49,7 @@ const Login = () => {
           // }}
         >
           <Image
-            source={images.logo2}
+            source={images.logo}
             resizeMode="contain"
             className="w-[115px] h-[34px]"
           />
@@ -109,6 +109,16 @@ const Login = () => {
               Register
             </Link>
           </View>
+
+          {/* <Link
+            className="text-lg font-psemibold text-secondary self-end"
+            href=""
+            onPress={(e) => {
+              logout(e);
+            }}
+          >
+            Logout
+          </Link> */}
         </View>
       </ScrollView>
     </SafeAreaView>

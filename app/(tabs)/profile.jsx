@@ -7,6 +7,7 @@ import Icon from "../../components/Icon";
 import ListItem from "../../components/ListItem";
 import ListItemSeparator from "../../components/ListItemSeparator";
 import { logout } from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const menuItems = [
   {
@@ -48,16 +49,18 @@ const menuItems = [
 ];
 
 const Profile = ({ navigation }) => {
+  const { setIsLoggedIn } = useGlobalContext();
+
   return (
-    <SafeAreaView style={styles.screen}>
-      <View style={styles.container}>
+    <SafeAreaView style={styles.screen} className="">
+      <View className="h-20">
         <ListItem
           title="Big Mike"
           subTitle="Bike.mesh@gmail.com"
           image={require("../../assets/images/profile.png")}
         />
       </View>
-      <View style={styles.container}>
+      <View style={styles.container} className="py-8">
         <FlatList
           data={menuItems}
           keyExtractor={(menuItem) => menuItem.title}
@@ -78,15 +81,21 @@ const Profile = ({ navigation }) => {
         />
       </View>
 
-      <ListItem
-        onPress={(e) => {
-          logout(e);
-        }}
-        title="Log Out"
-        IconComponent={
-          <Icon icon="logout" backgroundColor="#ffe66d" color={colors.light} />
-        }
-      />
+      <View className="mt-16 flex-1">
+        <ListItem
+          onPress={(e) => {
+            logout(e) && setIsLoggedIn(false);
+          }}
+          title="Log Out"
+          IconComponent={
+            <Icon
+              icon="logout"
+              backgroundColor="#ffe66d"
+              color={colors.light}
+            />
+          }
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -95,9 +104,6 @@ const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.dark,
     flex: 1,
-  },
-  container: {
-    marginVertical: 20,
   },
 });
 

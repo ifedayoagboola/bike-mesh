@@ -7,6 +7,7 @@ import ListItemSeparator from "../../components/ListItemSeparator";
 import { router } from "expo-router";
 import colors from "../../config/colors";
 import Map from "../../components/Map";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const menuItems = [
   {
