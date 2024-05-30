@@ -1,11 +1,11 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AssetCard from "../../components/AssetCard";
-import colors from "../../config/colors";
-import AddAsset from "../../components/AddAsset";
+import AssetCard from "../../../components/AssetCard";
+import colors from "../../../config/colors";
+import AddAsset from "../../../components/AddAsset";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 
 const History = () => {
   const assets = [
@@ -45,7 +45,7 @@ const History = () => {
       icon: "bicycle",
     },
     {
-      id: 5,
+      id: 6,
     },
   ];
 
@@ -60,12 +60,12 @@ const History = () => {
       <FlatList
         data={assets}
         keyExtractor={(item) => item.id.toString()}
-        numColumns="2"
+        numColumns={2}
         renderItem={({ item }) =>
           item.assetName ? (
             <AssetCard
               item={item}
-              onPress={() => router.push("/historyDetails")}
+              onPress={() => router.push(`history/${item.id}`)}
             />
           ) : (
             <AddAsset />
