@@ -29,7 +29,7 @@ const Login = () => {
       setUser(result);
       setIsLoggedIn(true);
 
-      Alert.alert("Success", "User signed in successfully");
+      // Alert.alert("Success", "User signed in successfully");
       router.replace("/location");
     } catch (error) {
       Alert.alert("Error", error.message);

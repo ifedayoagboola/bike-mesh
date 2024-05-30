@@ -65,7 +65,7 @@ const History = () => {
           item.assetName ? (
             <AssetCard
               item={item}
-              onPress={() => router.push("(tabs)/historyDetails")}
+              onPress={() => router.push("/historyDetails")}
             />
           ) : (
             <AddAsset />

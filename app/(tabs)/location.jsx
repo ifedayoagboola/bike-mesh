@@ -7,7 +7,6 @@ import ListItemSeparator from "../../components/ListItemSeparator";
 import { router } from "expo-router";
 import colors from "../../config/colors";
 import Map from "../../components/Map";
-import { useGlobalContext } from "../../context/GlobalProvider";
 
 const menuItems = [
   {
@@ -71,7 +70,7 @@ const Location = () => {
         className="bg-[#161622] p-4 rounded-t-2xl h-1/3"
       >
         <Text className="text-secondary font-psemibold text-2xl pl-4 py-2">
-          Assets Updated
+          Assets
         </Text>
 
         <FlatList
