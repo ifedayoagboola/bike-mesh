@@ -57,6 +57,10 @@ const HistoryDetails = () => {
       <Stack.Screen options={{ headerTitle: header[0].assetName }} />
       <Text>History Details Page</Text>
       <Text>History ID: {id}</Text>
+      <Text>History Details Page</Text>
+      <Text>History ID: {id}</Text>
+      <Text>History Details Page</Text>
+      <Text>History ID: {id}</Text>
     </View>
   );
 };
