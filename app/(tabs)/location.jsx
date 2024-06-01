@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, FlatList, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 import Icon from "../../components/Icon";
 import ListItem from "../../components/ListItem";
@@ -7,6 +13,7 @@ import ListItemSeparator from "../../components/ListItemSeparator";
 import { router } from "expo-router";
 import colors from "../../config/colors";
 import Map from "../../components/Map";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const menuItems = [
   {
@@ -69,9 +76,16 @@ const Location = () => {
         style={styles.container}
         className="bg-[#161622] p-4 rounded-t-2xl h-1/3"
       >
-        <Text className="text-secondary font-psemibold text-2xl pl-4 py-2">
-          Assets
-        </Text>
+        <View className="flex-row items-center justify-between">
+          <Text className="text-secondary font-psemibold text-2xl">Assets</Text>
+          <TouchableOpacity className="mr-4">
+            <MaterialCommunityIcons
+              color={colors.secondary}
+              name="plus"
+              size={25}
+            />
+          </TouchableOpacity>
+        </View>
 
         <FlatList
           data={menuItems}
