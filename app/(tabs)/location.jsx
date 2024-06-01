@@ -102,7 +102,7 @@ const Location = () => {
                 />
               }
               subTitle={item.subtitle}
-              onPress={() => router.push(item.targetScreen)}
+              onPress={() => router.push(`history/${item.id}`)}
             />
           )}
         />

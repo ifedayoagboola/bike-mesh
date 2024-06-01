@@ -8,6 +8,7 @@ import logoSmall from "../assets/images/logo-small.png";
 import empty from "../assets/images/empty.png";
 import bicycle from "../assets/images/bicycle.png";
 import onboarding1 from "../assets/images/onboarding1.png";
+import frame from "../assets/images/Frame.png";
 
 export default {
   profile,
@@ -20,4 +21,5 @@ export default {
   demo,
   bicycle,
   onboarding1,
+  frame,
 };

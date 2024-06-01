@@ -18,6 +18,7 @@ import facebook from "../assets/icons/facebook.png";
 import google from "../assets/icons/google.png";
 import appIcon from "../assets/icons/app-icon.png";
 import loading from "../assets/icons/loading.gif";
+import back from "../assets/icons/back-icon.png";
 
 export default {
   play,
@@ -40,4 +41,5 @@ export default {
   google,
   appIcon,
   loading,
+  back,
 };

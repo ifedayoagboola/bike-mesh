@@ -4,14 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AssetCard from "../../../components/AssetCard";
 import colors from "../../../config/colors";
 import AddAsset from "../../../components/AddAsset";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 
 const History = () => {
   const assets = [
     {
       id: 1,
-      assetName: "Giant TCR Advanced",
+      assetName: "Lauren's bike",
       assetType: "bicycle",
       lastSeen: "Near Duncregan Village centre Since 01:52pm",
       icon: "bicycle",
@@ -25,21 +24,21 @@ const History = () => {
     },
     {
       id: 3,
-      assetName: "Giant TCR Advanced",
+      assetName: "HR Ride to work scheme",
       assetType: "bicycle",
       lastSeen: "Near Duncregan Village centre Since 01:52pm",
       icon: "bicycle",
     },
     {
       id: 4,
-      assetName: "Giant TCR Advanced",
+      assetName: "Giant TCR",
       assetType: "bicycle",
       lastSeen: "Near Duncregan Village centre Since 01:52pm",
       icon: "bicycle",
     },
     {
       id: 5,
-      assetName: "Giant TCR Advanced",
+      assetName: "My Delivery Bike",
       assetType: "bicycle",
       lastSeen: "Near Duncregan Village centre Since 01:52pm",
       icon: "bicycle",
