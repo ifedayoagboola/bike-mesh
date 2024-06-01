@@ -16,7 +16,6 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "package": "com.cofounders.bikemesh",
       "bundleIdentifier": "com.cofounders.bikemesh"
     },
     "android": {
