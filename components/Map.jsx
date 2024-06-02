@@ -14,8 +14,10 @@ const Map = () => {
       ref={mapRef}
       style={styles.container}
       initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
+        // latitude: 37.78825,
+        // longitude: -122.4324,
+        latitude: 54.604560062217914,
+        longitude: -5.927063842931933,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}
