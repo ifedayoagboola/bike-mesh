@@ -14,6 +14,10 @@ import { router } from "expo-router";
 import colors from "../../config/colors";
 import Map from "../../components/Map";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Map3 from "../../components/Map3";
+import Map4 from "../../components/Map4";
+import Example from "../../components/Map4";
+import Map2 from "../../components/Map2";
 
 const menuItems = [
   {
