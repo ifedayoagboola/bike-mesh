@@ -1,18 +1,45 @@
-import React, { forwardRef } from "react";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import React, { forwardRef, useEffect, useState } from "react";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet } from "react-native";
+import MapViewDirections from "react-native-maps-directions";
+import * as Location from "expo-location";
+import CustomMarker from "./CustomMarker";
+import { icons, images } from "../constants";
 
 // Wrapping MapView with forwardRef
 const ForwardedMapView = forwardRef((props, ref) => (
-  <MapView ref={ref} {...props} />
+  <MapView ref={ref} {...props}>
+    {/* {props.myLocation.latitude && props.myLocation.longitude && (
+      <Marker
+        coordinate={{
+          latitude: props.myLocation.latitude,
+          longitude: props.myLocation.longitude,
+        }}
+        title="My current location"
+        description="I am here"
+        titleVisibility="visible"
+      />
+    )} */}
+    {props.myLocation.latitude && props.myLocation.longitude && (
+      <CustomMarker
+        coordinate={{
+          latitude: props.myLocation.latitude,
+          longitude: props.myLocation.longitude,
+        }}
+        title="My current location"
+      />
+    )}
+  </MapView>
 ));
 
-const Map = () => {
-  const mapRef = React.useRef({ PROVIDER_GOOGLE });
+const Map = ({ myLocation, _getLocation, mapRef, destination }) => {
+  useEffect(() => {
+    _getLocation();
+  }, []);
   return (
     <ForwardedMapView
       ref={mapRef}
-      mapType="mutedStandard"
+      // mapType="mutedStandard"
       style={styles.container}
       initialRegion={{
         // latitude: 37.78825,
@@ -22,6 +49,8 @@ const Map = () => {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}
+      myLocation={myLocation}
+      destination={destination}
       onMapReady={() => console.log("Map is ready")}
       onRegionChangeComplete={(region) => console.log("Region changed", region)}
     />

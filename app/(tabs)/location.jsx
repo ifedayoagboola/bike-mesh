@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -18,6 +18,9 @@ import Map3 from "../../components/Map3";
 import Map4 from "../../components/Map4";
 import Example from "../../components/Map4";
 import Map2 from "../../components/Map2";
+
+import * as Location from "expo-location";
+import { PROVIDER_GOOGLE } from "react-native-maps";
 
 const menuItems = [
   {
@@ -69,11 +72,53 @@ const menuItems = [
   },
 ];
 
-const Location = () => {
+const LocationScreen = () => {
+  const [myLocation, setMyLocation] = useState({});
+  const [destination, setDestination] = React.useState({
+    latitude: 54.604560062217914,
+    longitude: -5.927063842931933,
+  });
+  const mapRef = React.useRef({ PROVIDER_GOOGLE });
+
+  const _getLocation = async () => {
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status !== "granted") {
+        console.warn("Permission to access location was denied");
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setMyLocation(location.coords);
+      // console.log(location);
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const focusOnLocation = () => {
+    if (myLocation.latitude && myLocation.longitude) {
+      const newRegion = {
+        latitude: parseFloat(myLocation.latitude),
+        longitude: parseFloat(myLocation.longitude),
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      };
+      if (mapRef.current) {
+        mapRef.current.animateToRegion(newRegion, 1000);
+      }
+    }
+  };
   return (
     <View style={styles.screen} className="">
       <View className="h-2/3">
-        <Map />
+        <Map
+          myLocation={myLocation}
+          destination={destination}
+          _getLocation={_getLocation}
+          focusOnLocation={focusOnLocation}
+          mapRef={mapRef}
+        />
       </View>
 
       <View
@@ -106,7 +151,7 @@ const Location = () => {
                 />
               }
               subTitle={item.subtitle}
-              onPress={() => router.push(`history/${item.id}`)}
+              onPress={() => focusOnLocation()}
             />
           )}
         />
@@ -124,4 +169,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Location;
+export default LocationScreen;

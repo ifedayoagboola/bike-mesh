@@ -33,7 +33,8 @@ export default function Map2() {
 
   useEffect(() => {
     setPin(local);
-    _getLocation() && focusOnLocation();
+    _getLocation();
+    focusOnLocation();
   }, []);
 
   const _getLocation = async () => {
@@ -46,7 +47,7 @@ export default function Map2() {
       }
       let location = await Location.getCurrentPositionAsync({});
       setMyLocation(location.coords);
-      console.log(location);
+      // console.log(location);
     } catch (err) {
       console.warn(err);
     }
@@ -112,7 +113,7 @@ export default function Map2() {
           destination={destination}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeColor="black"
-          strokeWidth={5}
+          strokeWidth={2}
         />
       </MapView>
       <View style={styles.buttonContainer}>

@@ -1,18 +1,23 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import MapView, { Callout, Marker } from "react-native-maps";
+import { icons, images } from "../constants";
 
-export default function CustomMarker({ coordinate, title, image }) {
-  console.log("my location", coordinate);
+export default function CustomMarker({
+  latitude,
+  longitude,
+  title,
+  image,
+  coordinate,
+}) {
+  // console.log("my location", coordinate);
   return (
     <Marker
-      coordinate={{
-        latitude: 6.0062877,
-        longitude: 10.2552971,
-      }}
+      coordinate={coordinate}
+      className="w-[30px] h-[30px] items-center justify-center"
     >
       <View style={styles.markerContainer}>
-        <Image source={image} style={styles.markerImage} />
+        <Image source={images.bicycle} style={styles.markerImage} />
       </View>
       <Callout tooltip>
         <View>
@@ -29,14 +34,11 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   markerContainer: {
-    width: 30,
-    height: 30,
+    width: "100%",
+    height: "100%",
     borderRadius: 50,
-    // position: 'absolute',
-    // top: 120,
-    borderColor: "#FF0",
-    borderWidth: 4,
-    backgroundColor: "blue",
-    overflow: "hidden",
+    borderColor: "red",
+    borderWidth: 2,
+    backgroundColor: "red",
   },
 });
