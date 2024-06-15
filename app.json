@@ -4,7 +4,7 @@
     "slug": "bike-mesh",
     "description": "The best asset tracker app alive",
     "scheme": "bike-mesh",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/icons/ios-icon.png",
     "userInterfaceStyle": "light",
