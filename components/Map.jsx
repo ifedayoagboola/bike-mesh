@@ -1,10 +1,7 @@
-import React, { forwardRef, useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import React, { forwardRef, useEffect } from "react";
+import MapView from "react-native-maps";
 import { StyleSheet } from "react-native";
-import MapViewDirections from "react-native-maps-directions";
-import * as Location from "expo-location";
 import CustomMarker from "./CustomMarker";
-import { icons, images } from "../constants";
 
 // Wrapping MapView with forwardRef
 const ForwardedMapView = forwardRef((props, ref) => (
