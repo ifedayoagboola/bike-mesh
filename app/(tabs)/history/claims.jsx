@@ -1,4 +1,3 @@
-import React from "react";
 import {
   View,
   Text,
@@ -15,7 +14,7 @@ import { icons, images } from "../../../constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { CustomButton } from "../../../components";
 
-const HistoryDetails = () => {
+const MakeClaims = () => {
   const assets = [
     {
       id: 1,
@@ -64,7 +63,6 @@ const HistoryDetails = () => {
     return id == item.id;
   });
   const asset = data[0];
-
   return (
     <SafeAreaView style={styles.screen} className="p-4">
       <ScrollView>
@@ -83,7 +81,7 @@ const HistoryDetails = () => {
             />
           </TouchableOpacity>
           <Text className="text-white font-psemibold text-4xl w-[80%]">
-            {asset.assetName}
+            Make Claims
           </Text>
           <View className="flex-row justify-between items-center">
             <Text className="text-white font-pregular text-base">
@@ -151,7 +149,6 @@ const HistoryDetails = () => {
               title="Make Claim"
               containerStyles="mt-7"
               isLoading={false}
-              onPress={() => router.push("history/claims")}
             />
           </View>
         </View>
@@ -159,11 +156,7 @@ const HistoryDetails = () => {
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
-  screen: {
-    backgroundColor: colors.dark,
-    flex: 1,
-  },
-});
 
-export default HistoryDetails;
+export default MakeClaims;
+
+const styles = StyleSheet.create({});
