@@ -1,19 +1,7 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  FlatList,
-} from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import { Stack, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
-import { icons, images } from "../../../constants";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { CustomButton } from "../../../components";
 import ListItem from "../../../components/ListItem";
 import Icon from "../../../components/Icon";
 import ListItemSeparator from "../../../components/ListItemSeparator";
@@ -57,13 +45,6 @@ const MakeClaims = () => {
     },
   ];
 
-  const route = useRoute();
-  const { id } = route.params;
-
-  const data = rewards.filter((item) => {
-    return id == item.id;
-  });
-  const reward = data[0];
   return (
     <SafeAreaView style={styles.screen} className="p-4">
       <FlatList
