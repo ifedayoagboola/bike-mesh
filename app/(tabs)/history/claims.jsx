@@ -1,10 +1,10 @@
 import { StyleSheet, FlatList } from "react-native";
-import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
 import ListItem from "../../../components/ListItem";
 import Icon from "../../../components/Icon";
 import ListItemSeparator from "../../../components/ListItemSeparator";
+import ClaimsCard from "../../../components/ClaimsCard";
 
 const MakeClaims = () => {
   const rewards = [
@@ -52,7 +52,7 @@ const MakeClaims = () => {
         keyExtractor={(reward) => reward.id}
         ItemSeparatorComponent={ListItemSeparator}
         renderItem={({ item }) => (
-          <ListItem
+          <ClaimsCard
             title={item.toAndFro}
             IconComponent={
               <Icon
