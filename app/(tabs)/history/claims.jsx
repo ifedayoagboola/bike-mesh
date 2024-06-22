@@ -1,10 +1,18 @@
-import { StyleSheet, FlatList } from "react-native";
+import {
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  Text,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
 import ListItem from "../../../components/ListItem";
 import Icon from "../../../components/Icon";
 import ListItemSeparator from "../../../components/ListItemSeparator";
 import ClaimsCard from "../../../components/ClaimsCard";
+import { Stack, router } from "expo-router";
+import { icons } from "../../../constants";
 
 const MakeClaims = () => {
   const rewards = [
@@ -47,6 +55,17 @@ const MakeClaims = () => {
 
   return (
     <SafeAreaView style={styles.screen} className="p-4">
+      <Stack.Screen options={{ headerShown: false }} />
+      <TouchableOpacity
+        onPress={() => {
+          router.back() || router.push("/history");
+        }}
+      >
+        <Image source={icons.back} resizeMode="contain" className="w-6 h-6" />
+      </TouchableOpacity>
+      <Text className="text-white font-psemibold text-4xl w-[80%]">
+        Make Claims
+      </Text>
       <FlatList
         data={rewards}
         keyExtractor={(reward) => reward.id}
@@ -72,4 +91,9 @@ const MakeClaims = () => {
 
 export default MakeClaims;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: colors.dark,
+    flex: 1,
+  },
+});
