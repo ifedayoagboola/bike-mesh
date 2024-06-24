@@ -36,30 +36,20 @@ function ClaimsCard({
             source={images.claimscardbg}
             resizeMode="cover"
           >
-            <View style={styles.container} {...args}>
-              {IconComponent}
+            <View style={styles.container} {...args} className="">
               {image && <Image style={styles.image} source={image} />}
-              <View style={styles.detailsContainer}>
-                <Text
-                  style={styles.title}
-                  numberOfLines={1}
-                  className="text-gray-300"
-                >
-                  {title}
+              <View style={styles.detailsContainer} className="">
+                <Text className="text-white text-lg">{title}</Text>
+
+                <Text className="text-gray-400 py-2 text-sm">
+                  Completed 80km
                 </Text>
-                {subTitle && (
-                  <Text style={styles.subTitle} numberOfLines={2}>
-                    {subTitle}
-                  </Text>
-                )}
+
+                <View className="flex-row items-center justify-start">
+                  {IconComponent}
+                  <Text className="text-gray-100 text-sm">Today 08:30 AM</Text>
+                </View>
               </View>
-              {rightArrowIcon && (
-                <MaterialCommunityIcons
-                  color={colors.medium}
-                  name="chevron-right"
-                  size={25}
-                />
-              )}
             </View>
           </ImageBackground>
         </TouchableHighlight>
