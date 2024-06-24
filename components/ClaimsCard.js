@@ -24,37 +24,41 @@ function ClaimsCard({
   ...args
 }) {
   return (
-    <GestureHandlerRootView>
-      <Swipeable renderRightActions={renderRightActions}>
-        <TouchableHighlight
-          underlayColor={colors.light}
-          onPress={onPress}
-          className="flex-1 my-3"
-        >
-          <ImageBackground
-            className="flex-1 justify-center"
-            source={images.claimscardbg}
-            resizeMode="cover"
+    <View className="my-4">
+      <GestureHandlerRootView>
+        <Swipeable renderRightActions={renderRightActions}>
+          <TouchableHighlight
+            underlayColor={colors.light}
+            onPress={onPress}
+            className="flex-1"
           >
-            <View style={styles.container} {...args} className="">
-              {image && <Image style={styles.image} source={image} />}
-              <View style={styles.detailsContainer} className="">
-                <Text className="text-white text-lg">{title}</Text>
+            <ImageBackground
+              className="flex-1 justify-center"
+              source={images.claimscardbg}
+              resizeMode="cover"
+            >
+              <View style={styles.container} {...args}>
+                {image && <Image style={styles.image} source={image} />}
+                <View style={styles.detailsContainer}>
+                  <Text className="text-white text-lg">{title}</Text>
 
-                <Text className="text-gray-400 py-2 text-sm">
-                  Completed 80km
-                </Text>
+                  <Text className="text-gray-400 py-2 text-sm">
+                    Completed 80km
+                  </Text>
 
-                <View className="flex-row items-center justify-start">
-                  {IconComponent}
-                  <Text className="text-gray-100 text-sm">Today 08:30 AM</Text>
+                  <View className="flex-row items-center justify-start">
+                    {IconComponent}
+                    <Text className="text-gray-100 text-sm">
+                      Today 08:30 AM
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          </ImageBackground>
-        </TouchableHighlight>
-      </Swipeable>
-    </GestureHandlerRootView>
+            </ImageBackground>
+          </TouchableHighlight>
+        </Swipeable>
+      </GestureHandlerRootView>
+    </View>
   );
 }
 

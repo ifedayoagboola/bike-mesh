@@ -69,7 +69,7 @@ const MakeClaims = () => {
       <FlatList
         data={rewards}
         keyExtractor={(reward) => reward.id}
-        ItemSeparatorComponent={ListItemSeparator}
+        ItemSeparatorComponent={false}
         renderItem={({ item }) => (
           <ClaimsCard
             title={item.toAndFro}
