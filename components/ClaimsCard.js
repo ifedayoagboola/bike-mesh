@@ -1,10 +1,17 @@
 import React from "react";
-import { View, StyleSheet, Image, TouchableHighlight } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableHighlight,
+  ImageBackground,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import colors from "../config/colors";
 import Text from "../components/Text";
+import { images } from "../constants";
 
 function ClaimsCard({
   title,
@@ -19,32 +26,42 @@ function ClaimsCard({
   return (
     <GestureHandlerRootView>
       <Swipeable renderRightActions={renderRightActions}>
-        <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
-          <View style={styles.container} {...args}>
-            {IconComponent}
-            {image && <Image style={styles.image} source={image} />}
-            <View style={styles.detailsContainer}>
-              <Text
-                style={styles.title}
-                numberOfLines={1}
-                className="text-gray-300"
-              >
-                {title}
-              </Text>
-              {subTitle && (
-                <Text style={styles.subTitle} numberOfLines={2}>
-                  {subTitle}
+        <TouchableHighlight
+          underlayColor={colors.light}
+          onPress={onPress}
+          className="flex-1 my-3"
+        >
+          <ImageBackground
+            className="flex-1 justify-center"
+            source={images.claimscardbg}
+            resizeMode="cover"
+          >
+            <View style={styles.container} {...args}>
+              {IconComponent}
+              {image && <Image style={styles.image} source={image} />}
+              <View style={styles.detailsContainer}>
+                <Text
+                  style={styles.title}
+                  numberOfLines={1}
+                  className="text-gray-300"
+                >
+                  {title}
                 </Text>
+                {subTitle && (
+                  <Text style={styles.subTitle} numberOfLines={2}>
+                    {subTitle}
+                  </Text>
+                )}
+              </View>
+              {rightArrowIcon && (
+                <MaterialCommunityIcons
+                  color={colors.medium}
+                  name="chevron-right"
+                  size={25}
+                />
               )}
             </View>
-            {rightArrowIcon && (
-              <MaterialCommunityIcons
-                color={colors.medium}
-                name="chevron-right"
-                size={25}
-              />
-            )}
-          </View>
+          </ImageBackground>
         </TouchableHighlight>
       </Swipeable>
     </GestureHandlerRootView>

@@ -112,13 +112,13 @@ const LocationScreen = () => {
   return (
     <View style={styles.screen} className="">
       <View className="h-2/3">
-        <Map
+        {/* <Map
           myLocation={myLocation}
           destination={destination}
           _getLocation={_getLocation}
           focusOnLocation={focusOnLocation}
           mapRef={mapRef}
-        />
+        /> */}
       </View>
 
       <View
@@ -151,7 +151,7 @@ const LocationScreen = () => {
                 />
               }
               subTitle={item.subtitle}
-              onPress={() => focusOnLocation()}
+              // onPress={() => focusOnLocation()}
             />
           )}
         />

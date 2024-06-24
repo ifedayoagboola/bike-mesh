@@ -9,6 +9,7 @@ import empty from "../assets/images/empty.png";
 import bicycle from "../assets/images/bicycle.png";
 import onboarding1 from "../assets/images/onboarding1.png";
 import frame from "../assets/images/Frame.png";
+import claimscardbg from "../assets/images/claimscardbg.png";
 
 export default {
   profile,
@@ -22,4 +23,5 @@ export default {
   bicycle,
   onboarding1,
   frame,
+  claimscardbg,
 };
