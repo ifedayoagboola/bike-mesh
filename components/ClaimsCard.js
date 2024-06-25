@@ -12,6 +12,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import colors from "../config/colors";
 import Text from "../components/Text";
 import { images } from "../constants";
+import CustomButton from "./CustomButton";
 
 function ClaimsCard({
   title,
@@ -51,6 +52,14 @@ function ClaimsCard({
                     <Text className="text-gray-100 text-sm">
                       Today 08:30 AM
                     </Text>
+                    <View className="w-[200px] self-center">
+                      <CustomButton
+                        title="Make Claim"
+                        containerStyles="mt-7"
+                        isLoading={false}
+                        onPress={() => router.push("history/claims")}
+                      />
+                    </View>
                   </View>
                 </View>
               </View>
