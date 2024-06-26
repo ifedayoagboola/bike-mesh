@@ -47,19 +47,19 @@ function ClaimsCard({
                     Completed 80km
                   </Text>
 
-                  <View className="flex-row items-center justify-start">
+                  <View className="flex-row items-center justify-start gap-2">
                     {IconComponent}
                     <Text className="text-gray-100 text-sm">
                       Today 08:30 AM
                     </Text>
-                    <View className="w-[200px] self-center">
-                      <CustomButton
-                        title="Make Claim"
-                        containerStyles="mt-7"
-                        isLoading={false}
-                        onPress={() => router.push("history/claims")}
-                      />
-                    </View>
+
+                    <CustomButton
+                      className="font-normal p-2 text-xs"
+                      title="Make Claim"
+                      containerStyles="mt-7"
+                      isLoading={false}
+                      onPress={() => router.push("history/claims")}
+                    />
                   </View>
                 </View>
               </View>
