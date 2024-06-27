@@ -5,14 +5,15 @@ import {
   Image,
   TouchableHighlight,
   ImageBackground,
+  ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import colors from "../config/colors";
 import Text from "../components/Text";
 import { images } from "../constants";
-import CustomButton from "./CustomButton";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 function ClaimsCard({
   title,
@@ -24,15 +25,12 @@ function ClaimsCard({
   rightArrowIcon,
   ...args
 }) {
+  const { isLoading } = useGlobalContext();
   return (
     <View className="my-4">
       <GestureHandlerRootView>
         <Swipeable renderRightActions={renderRightActions}>
-          <TouchableHighlight
-            underlayColor={colors.light}
-            onPress={onPress}
-            className="flex-1"
-          >
+          <TouchableHighlight underlayColor={colors.light} className="flex-1">
             <ImageBackground
               className="flex-1 justify-center"
               source={images.claimscardbg}
@@ -47,19 +45,34 @@ function ClaimsCard({
                     Completed 80km
                   </Text>
 
-                  <View className="flex-row items-center justify-start gap-2">
-                    {IconComponent}
-                    <Text className="text-gray-100 text-sm">
-                      Today 08:30 AM
-                    </Text>
+                  <View className="flex-row items-center justify-between gap-2">
+                    <View className="flex-row items-center justify-start">
+                      <View>{IconComponent}</View>
+                      <Text className="text-gray-100 text-sm">
+                        Today 08:30 AM
+                      </Text>
+                    </View>
 
-                    <CustomButton
-                      className="font-normal p-2 text-xs"
-                      title="Make Claim"
-                      containerStyles="mt-7"
-                      isLoading={false}
-                      onPress={() => router.push("history/claims")}
-                    />
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      className={`bg-secondary rounded-2xl flex flex-row justify-center items-center p-2${
+                        isLoading ? "opacity-50" : ""
+                      }`}
+                      disabled={isLoading}
+                    >
+                      <Text className={`text-primary font-normal text-sm`}>
+                        Claim Reward
+                      </Text>
+
+                      {isLoading && (
+                        <ActivityIndicator
+                          animating={isLoading}
+                          color="#fff"
+                          size="small"
+                          className="ml-2"
+                        />
+                      )}
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>
