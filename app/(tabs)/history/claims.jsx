@@ -66,6 +66,7 @@ const MakeClaims = () => {
       <Text className="text-white font-psemibold text-4xl w-[80%]">
         Make Claims
       </Text>
+
       <FlatList
         data={rewards}
         keyExtractor={(reward) => reward.id}
