@@ -7,6 +7,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -27,7 +28,7 @@ function ClaimsCard({
 }) {
   const { isLoading } = useGlobalContext();
   return (
-    <View className="my-4">
+    <ScrollView className="my-2">
       <GestureHandlerRootView>
         <Swipeable renderRightActions={renderRightActions}>
           <TouchableHighlight underlayColor={colors.light} className="flex-1">
@@ -80,7 +81,7 @@ function ClaimsCard({
           </TouchableHighlight>
         </Swipeable>
       </GestureHandlerRootView>
-    </View>
+    </ScrollView>
   );
 }
 

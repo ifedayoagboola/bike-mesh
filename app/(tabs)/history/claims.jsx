@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
@@ -12,7 +13,7 @@ import Icon from "../../../components/Icon";
 import ListItemSeparator from "../../../components/ListItemSeparator";
 import ClaimsCard from "../../../components/ClaimsCard";
 import { Stack, router } from "expo-router";
-import { icons } from "../../../constants";
+import { icons, images } from "../../../constants";
 
 const MakeClaims = () => {
   const rewards = [
@@ -66,6 +67,12 @@ const MakeClaims = () => {
       <Text className="text-white font-psemibold text-4xl w-[80%]">
         Make Claims
       </Text>
+
+      <View className="w-[250px] h-[250px] flex self-center justify-center items-center">
+        <Image source={images.chart} resizeMode="contain" className="w-full" />
+        <Text className="text-gray-400 py-2 text-sm">Total Earnings</Text>
+        <Text className="text-white text-lg font-psemibold">£250</Text>
+      </View>
 
       <FlatList
         data={rewards}
