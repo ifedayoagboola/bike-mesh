@@ -64,13 +64,13 @@ const MakeClaims = () => {
       >
         <Image source={icons.back} resizeMode="contain" className="w-6 h-6" />
       </TouchableOpacity>
-      <Text className="text-white font-psemibold text-4xl w-[80%]">
+      <Text className="text-white font-psemibold text-2xl w-[80%] py-2">
         Make Claims
       </Text>
 
-      <View className="w-[250px] h-[250px] flex self-center justify-center items-center">
+      <View className="w-[200px] h-[200px] flex self-center justify-center items-center my-4">
         <Image source={images.chart} resizeMode="contain" className="w-full" />
-        <Text className="text-gray-400 py-2 text-sm">Total Earnings</Text>
+        <Text className="text-gray-400 text-sm">Total Earnings</Text>
         <Text className="text-white text-lg font-psemibold">£250</Text>
       </View>
 

@@ -35,21 +35,22 @@ function ClaimsCard({
             <ImageBackground
               className="flex-1 justify-center"
               source={images.claimscardbg}
+              imageStyle={{ borderRadius: 20 }}
               resizeMode="cover"
             >
               <View style={styles.container} {...args}>
                 {image && <Image style={styles.image} source={image} />}
                 <View style={styles.detailsContainer}>
-                  <Text className="text-white text-lg">{title}</Text>
+                  <Text className="text-white text-sm">{title}</Text>
 
-                  <Text className="text-gray-400 py-2 text-sm">
+                  <Text className="text-gray-400 py-1 text-xs">
                     Completed 80km
                   </Text>
 
-                  <View className="flex-row items-center justify-between gap-2">
+                  <View className="flex-row items-center justify-between">
                     <View className="flex-row items-center justify-start">
                       <View>{IconComponent}</View>
-                      <Text className="text-gray-100 text-sm">
+                      <Text className="text-gray-100 text-xs">
                         Today 08:30 AM
                       </Text>
                     </View>
