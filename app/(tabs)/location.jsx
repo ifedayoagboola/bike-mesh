@@ -125,12 +125,12 @@ const LocationScreen = () => {
         style={styles.container}
         className="bg-[#161622] p-4 rounded-t-2xl h-1/3"
       >
-        <View
-          className="flex-row items-center justify-between"
-          onPress={() => router.push("connect")}
-        >
+        <View className="flex-row items-center justify-between">
           <Text className="text-secondary font-psemibold text-2xl">Assets</Text>
-          <TouchableOpacity className="mr-4">
+          <TouchableOpacity
+            className="mr-4"
+            onPress={() => router.push("connect")}
+          >
             <MaterialCommunityIcons
               color={colors.secondary}
               name="plus"
