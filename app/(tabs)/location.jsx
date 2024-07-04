@@ -125,7 +125,10 @@ const LocationScreen = () => {
         style={styles.container}
         className="bg-[#161622] p-4 rounded-t-2xl h-1/3"
       >
-        <View className="flex-row items-center justify-between">
+        <View
+          className="flex-row items-center justify-between"
+          onPress={() => router.push("connect")}
+        >
           <Text className="text-secondary font-psemibold text-2xl">Assets</Text>
           <TouchableOpacity className="mr-4">
             <MaterialCommunityIcons
@@ -151,7 +154,7 @@ const LocationScreen = () => {
                 />
               }
               subTitle={item.subtitle}
-              onPress={() => router.push("connect")}
+              // onPress={() => focusOnLocation()}
             />
           )}
         />
