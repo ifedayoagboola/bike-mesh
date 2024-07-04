@@ -17,7 +17,7 @@ function ListItem({
   ...args
 }) {
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView onPress={onPress}>
       <Swipeable renderRightActions={renderRightActions}>
         <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
           <View style={styles.container} {...args}>

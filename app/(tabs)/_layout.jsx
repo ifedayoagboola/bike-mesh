@@ -7,25 +7,6 @@ import { Loader } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import Icon from "../../components/Icon";
 
-// const TabIcon = ({ icon, color, name, focused }) => {
-//   return (
-//     <View className="flex items-center justify-center gap-2">
-//       <Image
-//         source={icon}
-//         resizeMode="contain"
-//         tintColor={color}
-//         className="w-6 h-6"
-//       />
-//       <Text
-//         className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
-//         style={{ color: color }}
-//       >
-//         {name}
-//       </Text>
-//     </View>
-//   );
-// };
-
 const TabLayout = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
 

@@ -151,7 +151,7 @@ const LocationScreen = () => {
                 />
               }
               subTitle={item.subtitle}
-              // onPress={() => focusOnLocation()}
+              onPress={() => router.push("connect")}
             />
           )}
         />
