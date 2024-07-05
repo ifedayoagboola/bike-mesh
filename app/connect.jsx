@@ -8,17 +8,24 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../config/colors";
-// import ListItem from "../../../components/ListItem";
-// import Icon from "../../../components/Icon";
-// import ListItemSeparator from "../../../components/ListItemSeparator";
-// import ClaimsCard from "../../../components/ClaimsCard";
+
 import { Stack } from "expo-router";
-// import { icons, images } from "../../../constants";
+import { icons } from "../constants";
 
 const Connect = () => {
   return (
     <SafeAreaView style={styles.screen} className="p-4">
       <Stack.Screen options={{ headerShown: false }} />
+      <TouchableOpacity
+        onPress={() => {
+          router.back() || router.push("/history");
+        }}
+      >
+        <Image source={icons.back} resizeMode="contain" className="w-6 h-6" />
+      </TouchableOpacity>
+      <Text className="text-white font-psemibold text-4xl w-[80%]">
+        Connect Bycicle
+      </Text>
       <Text>connect Screen</Text>
     </SafeAreaView>
   );
