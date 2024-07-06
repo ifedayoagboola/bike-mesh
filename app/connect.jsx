@@ -9,8 +9,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../config/colors";
 
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { icons } from "../constants";
+import FormField from "../components/FormField";
+import CustomButton from "../components/CustomButton";
 
 const Connect = () => {
   return (
@@ -23,10 +25,16 @@ const Connect = () => {
       >
         <Image source={icons.back} resizeMode="contain" className="w-6 h-6" />
       </TouchableOpacity>
-      <Text className="text-white font-psemibold text-4xl w-[80%]">
-        Connect Bycicle
+      <Text className="text-white font-psemibold text-4xl w-[200px] py-3">
+        Connect Bicycle
       </Text>
-      <Text>connect Screen</Text>
+      <Text className="text-white">connect Screen</Text>
+      <FormField otherStyles="py-6" placeholder="Tracking ID" />
+      <CustomButton title="Connect Asset" textStyles="font-pmedium" />
+
+      <Text className="text-lg text-secondary pt-12 font">
+        Scan code instead?
+      </Text>
     </SafeAreaView>
   );
 };
@@ -35,7 +43,7 @@ export default Connect;
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: colors.danger,
+    backgroundColor: colors.dark,
     flex: 1,
   },
 });
