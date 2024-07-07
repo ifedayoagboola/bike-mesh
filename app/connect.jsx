@@ -34,7 +34,6 @@ const Connect = () => {
       <Text className="text-white font-psemibold text-4xl w-[200px] py-3">
         Connect Bicycle
       </Text>
-      <Text className="text-white">connect Screen</Text>
       <FormField otherStyles="py-6" placeholder="Tracking ID" />
       <CustomButton title="Connect Asset" textStyles="font-pmedium" />
 
