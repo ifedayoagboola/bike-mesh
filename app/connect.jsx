@@ -1,18 +1,15 @@
 import {
   StyleSheet,
-  FlatList,
   TouchableOpacity,
   Image,
   Text,
   View,
   Modal,
-  Dimensions,
-  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../config/colors";
 
-import { Link, Stack, router } from "expo-router";
+import { Stack, router } from "expo-router";
 import { icons } from "../constants";
 import FormField from "../components/FormField";
 import CustomButton from "../components/CustomButton";
