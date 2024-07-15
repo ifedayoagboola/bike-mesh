@@ -1,16 +1,10 @@
-import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
-import { View, Image, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Text from "../components/Text";
-
+import { View, Image } from "react-native";
 import { images } from "../constants";
-import { CustomButton, Loader } from "../components";
+import { Loader } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 import Onboarding from "react-native-onboarding-swiper";
-import SplashScreen from "../components/SplashScreen";
-import { useEffect } from "react";
 
 const Welcome = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
