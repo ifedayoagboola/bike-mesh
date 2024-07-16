@@ -1,15 +1,9 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
-import MapView, { Callout, Marker } from "react-native-maps";
-import { icons, images } from "../constants";
+import { Callout, Marker } from "react-native-maps";
+import { images } from "../constants";
 
-export default function CustomMarker({
-  latitude,
-  longitude,
-  title,
-  image,
-  coordinate,
-}) {
+export default function CustomMarker({ title, coordinate }) {
   // console.log("my location", coordinate);
   return (
     <Marker
