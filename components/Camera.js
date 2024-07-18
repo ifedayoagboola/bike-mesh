@@ -1,8 +1,17 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Loader from "./Loader";
 import colors from "../config/colors";
+import { icons } from "../constants";
+import { router } from "expo-router";
 
 export default function Camera() {
   const [facing, setFacing] = useState("back");
@@ -43,6 +52,18 @@ export default function Camera() {
         BarcodeScanningResult={scanningResult()}
       >
         <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              router.back() || router.push("/history");
+            }}
+          >
+            <Image
+              source={icons.back}
+              resizeMode="contain"
+              className="w-6 h-6"
+            />
+          </TouchableOpacity>
+
           <TouchableOpacity
             className="p-2 rounded-xl"
             style={styles.button}
