@@ -8,9 +8,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
-import ListItem from "../../../components/ListItem";
 import Icon from "../../../components/Icon";
-import ListItemSeparator from "../../../components/ListItemSeparator";
 import ClaimsCard from "../../../components/ClaimsCard";
 import { Stack, router } from "expo-router";
 import { icons, images } from "../../../constants";
