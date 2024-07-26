@@ -5,7 +5,7 @@ import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 
 import { icons, images } from "../../constants";
 import { CustomButton, FormField, Loader } from "../../components";
-import { createUser, getCurrentUser, signIn } from "../../lib/appwrite";
+import { createUser, getCurrentUser } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Register = () => {
