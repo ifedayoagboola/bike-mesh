@@ -1,11 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import {
-  Image,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Text from "../components/Text";
 import { images } from "../constants";
 import ListItem from "./ListItem";
