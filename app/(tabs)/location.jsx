@@ -13,6 +13,7 @@ import ListItemSeparator from "../../components/ListItemSeparator";
 import { router } from "expo-router";
 import colors from "../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Map from "../../components/Map";
 
 import * as Location from "expo-location";
 import { PROVIDER_GOOGLE } from "react-native-maps";
@@ -107,13 +108,13 @@ const LocationScreen = () => {
   return (
     <View style={styles.screen} className="">
       <View className="h-2/3">
-        {/* <Map
+        <Map
           myLocation={myLocation}
           destination={destination}
           _getLocation={_getLocation}
           focusOnLocation={focusOnLocation}
           mapRef={mapRef}
-        /> */}
+        />
       </View>
 
       <View

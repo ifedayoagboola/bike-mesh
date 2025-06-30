@@ -1,3 +1,4 @@
+import "../global.css";
 import { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { SplashScreen, Stack } from "expo-router";

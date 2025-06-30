@@ -15,7 +15,11 @@ const TabLayout = () => {
         screenOptions={{
           tabBarActiveTintColor: "#00F704",
           tabBarInactiveTintColor: "#CDCDE0",
-          tabBarShowLabel: false,
+          tabBarShowLabel: true,
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontWeight: "600",
+          },
           tabBarStyle: {
             backgroundColor: "#161622",
             borderTopWidth: 1,
@@ -33,7 +37,7 @@ const TabLayout = () => {
               <Icon
                 icon="history"
                 backgroundColor=""
-                title="History"
+                title=""
                 focused={focused}
                 color={color}
               />
@@ -49,7 +53,7 @@ const TabLayout = () => {
               <Icon
                 icon="map-marker"
                 backgroundColor=""
-                title="Location"
+                title=""
                 focused={focused}
                 color={color}
               />
@@ -65,7 +69,7 @@ const TabLayout = () => {
               <Icon
                 icon="account"
                 backgroundColor=""
-                title="Profile"
+                title=""
                 focused={focused}
                 color={color}
               />
