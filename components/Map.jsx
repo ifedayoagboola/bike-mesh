@@ -36,7 +36,7 @@ const Map = ({ myLocation, _getLocation, mapRef, destination }) => {
   return (
     <ForwardedMapView
       ref={mapRef}
-      mapType="mutedStandard"
+      mapType="standard"
       style={styles.container}
       initialRegion={{
         // latitude: 37.78825,

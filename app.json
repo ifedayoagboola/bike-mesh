@@ -13,10 +13,19 @@
       "resizeMode": "cover",
       "backgroundColor": "#000"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cofounders.bikemesh"
+      "bundleIdentifier": "com.cofounders.bikemesh",
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth to connect to bike tracking devices",
+        "NSBluetoothPeripheralUsageDescription": "This app uses Bluetooth to connect to bike tracking devices",
+        "NSLocationWhenInUseUsageDescription": "This app uses location to track your bike's position",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses location to track your bike's position in the background",
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -24,6 +33,16 @@
         "backgroundColor": "#000"
       },
       "package": "com.cofounders.bikemesh",
+      "permissions": [
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN",
+        "android.permission.BLUETOOTH_CONNECT",
+        "android.permission.BLUETOOTH_SCAN",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.CAMERA"
+      ],
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC2npOce5wi7Zm5OMJKFYpRdA32y0XEjyk"
@@ -31,17 +50,28 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
+      "expo-dev-client",
       [
         "expo-camera",
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
           "recordAudioAndroid": false
         }
-      ]
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location to track your bike's position",
+          "locationAlwaysPermission": "Allow $(PRODUCT_NAME) to use your location in the background to track your bike's position",
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location to track your bike's position"
+        }
+      ],
+      "react-native-ble-plx"
     ],
     "extra": {
       "router": {
@@ -51,14 +81,13 @@
         "projectId": "f160dd12-9fc4-4319-b37b-1314561ae8f5"
       }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.6",
     "updates": {
       "checkAutomatically": "ON_LOAD",
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/f160dd12-9fc4-4319-b37b-1314561ae8f5"
     },
-    "owner": "ifedayoagboola19"
+    "owner": "ifedayoagboola19",
+    "newArchEnabled": true
   }
 }
