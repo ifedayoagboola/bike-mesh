@@ -54,6 +54,7 @@
       "bundler": "metro"
     },
     "plugins": [
+      "expo-build-properties",
       "expo-router",
       "expo-dev-client",
       [
@@ -72,7 +73,7 @@
         }
       ],
       "react-native-ble-plx"
-    ],
+        ],
     "extra": {
       "router": {
         "origin": false
