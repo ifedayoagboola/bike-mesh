@@ -29,29 +29,13 @@ const TabLayout = () => {
         }}
       >
         <Tabs.Screen
-          name="history"
-          options={{
-            title: "History",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <Icon
-                icon="history"
-                backgroundColor=""
-                title=""
-                focused={focused}
-                color={color}
-              />
-            ),
-          }}
-        />
-        <Tabs.Screen
           name="location"
           options={{
-            title: "Location",
+            title: "Home",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <Icon
-                icon="map-marker"
+                icon="home"
                 backgroundColor=""
                 title=""
                 focused={focused}
@@ -61,13 +45,61 @@ const TabLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="profile"
+          name="find"
           options={{
-            title: "Profile",
+            title: "Find",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <Icon
-                icon="account"
+                icon="radar"
+                backgroundColor=""
+                title=""
+                focused={focused}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="map"
+          options={{
+            title: "Map",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <Icon
+                icon="map"
+                backgroundColor=""
+                title=""
+                focused={focused}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="alerts"
+          options={{
+            title: "Alerts",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <Icon
+                icon="bell"
+                backgroundColor=""
+                title=""
+                focused={focused}
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: "Settings",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <Icon
+                icon="cog"
                 backgroundColor=""
                 title=""
                 focused={focused}

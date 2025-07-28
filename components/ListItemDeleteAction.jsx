@@ -2,8 +2,6 @@ import React from "react";
 import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-// import colors from "../../config/colors";
-
 function ListItemDeleteAction({ onPress }) {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
@@ -11,7 +9,7 @@ function ListItemDeleteAction({ onPress }) {
         <MaterialCommunityIcons
           name="trash-can"
           size={35}
-          color={colors.white}
+          color="white"
         />
       </View>
     </TouchableWithoutFeedback>
