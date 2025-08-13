@@ -9,9 +9,9 @@
     "icon": "./assets/icons/ios-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/Splash-screen.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#000"
+      "image": "./assets/icons/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0F0F23"
     },
     "assetBundlePatterns": [
       "**/*"

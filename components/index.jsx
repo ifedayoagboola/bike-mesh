@@ -6,6 +6,7 @@ import Loader from "./Loader";
 import Trending from "./Trending";
 import SearchInput from "./SearchInput";
 import EmptyState from "./EmptyState";
+import OnboardingScreen from "./OnboardingScreen";
 
 export {
   VideoCard,
@@ -16,4 +17,5 @@ export {
   Trending,
   SearchInput,
   EmptyState,
+  OnboardingScreen,
 };
