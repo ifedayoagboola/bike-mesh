@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getCurrentUser } from "../lib/appwrite";
+import { getCurrentUser, logout } from "../lib/appwrite";
 import * as Updates from "expo-updates";
 
 const GlobalContext = createContext();
@@ -23,6 +23,32 @@ const GlobalProvider = ({ children }) => {
       alert(`Error fetching latest Expo update: ${error}`);
     }
   }
+
+  const handleLogout = async (navigationCallback) => {
+    try {
+      // Clear local state first
+      setIsLoggedIn(false);
+      setUser(null);
+      
+      // Attempt to logout from Appwrite
+      await logout();
+      
+      // Use the navigation callback if provided
+      if (navigationCallback) {
+        navigationCallback();
+      }
+    } catch (error) {
+      console.log("Logout error:", error);
+      // Even if logout fails, ensure we're logged out locally
+      setIsLoggedIn(false);
+      setUser(null);
+      
+      // Use the navigation callback if provided
+      if (navigationCallback) {
+        navigationCallback();
+      }
+    }
+  };
 
   useEffect(() => {
     getCurrentUser()
@@ -53,10 +79,12 @@ const GlobalProvider = ({ children }) => {
         setIsLoggedIn,
         user,
         setUser,
+        handleLogout,
       }}
     >
       {children}
     </GlobalContext.Provider>
   );
 };
+
 export default GlobalProvider;

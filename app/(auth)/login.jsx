@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link, router } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
+import { View, Text, ScrollView, Dimensions, Alert, Image, TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { icons, images } from "../../constants";
 import { CustomButton, FormField, Loader } from "../../components";
@@ -9,6 +11,7 @@ import { getCurrentUser, logout, signIn } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Login = () => {
+  const router = useRouter();
   const { setUser, setIsLoggedIn } = useGlobalContext();
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -19,6 +22,7 @@ const Login = () => {
   const submit = async () => {
     if (form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
+      return;
     }
 
     setSubmitting(true);
@@ -38,87 +42,130 @@ const Login = () => {
     }
   };
 
+  const handleSocialLogin = (platform) => {
+    Alert.alert("Coming Soon", `${platform} login will be available soon!`);
+  };
+
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="flex-1">
       <Loader isLoading={isSubmitting} />
-      <ScrollView>
-        <View
-          className="w-full flex justify-center h-full px-4"
-          // style={{
-          //   minHeight: Dimensions.get("window").height - 100,
-          // }}
-        >
-          {/* <Image
-            source={images.logo}
-            resizeMode="contain"
-            className="w-[115px] h-[34px]"
-          /> */}
+      
+      {/* Background Gradient */}
+      <LinearGradient
+        colors={['#0F0F23', '#1A1A2E', '#16213E']}
+        className="absolute w-full h-full"
+      />
+      
+      <ScrollView 
+        className="flex-1 px-6"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 40 }}
+      >
+        {/* Header Section */}
+        <View className="pt-8 pb-12">
+          {/* Logo */}
+          <View className="items-center mb-8">
+            <View className="w-20 h-20 bg-secondary/20 rounded-3xl items-center justify-center mb-4">
+              <Image
+                source={images.logo}
+                resizeMode="contain"
+                className="w-12 h-12"
+              />
+            </View>
+            <Text className="text-2xl font-bold text-white text-center mb-2">
+              Bike Mesh
+            </Text>
+            <Text className="text-gray-400 text-center text-base">
+              The best asset tracker app alive
+            </Text>
+          </View>
 
-          <Text className="text-4xl font-semibold text-white mt-10 font-pextrabold">
-            Welcome!
-          </Text>
+          {/* Welcome Text */}
+          <View className="mb-8">
+            <Text className="text-4xl font-bold text-white mb-2">
+              Welcome back!
+            </Text>
+            <Text className="text-lg text-gray-300">
+              Sign in to continue tracking your assets
+            </Text>
+          </View>
+        </View>
 
+        {/* Form Section */}
+        <View className="mb-8">
           <FormField
-            title="Email"
+            title="Email Address"
             value={form.email}
             handleChangeText={(e) => setForm({ ...form, email: e })}
-            otherStyles="mt-7"
+            otherStyles="mb-6"
             keyboardType="email-address"
+            placeholder="Enter your email"
           />
 
           <FormField
             title="Password"
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
-            otherStyles="mt-7"
+            otherStyles="mb-4"
+            placeholder="Enter your password"
           />
-          <Link href="" className="self-end font-psemibold text-secondary">
-            Forgot password
-          </Link>
-
-          <View className="my-4">
-            <Text className="self-center pb-2 justify-center text-gray-500">
-              Or Login with
+          
+          <TouchableOpacity className="self-end mb-6">
+            <Text className="text-secondary font-semibold text-base">
+              Forgot password?
             </Text>
-            <View className="flex-row justify-center gap-6">
-              <View className="p-2 bg-gray-300 rounded-full">
-                <Image source={icons.google} resizeMode="contain" />
-              </View>
-              <View className="p-2 bg-gray-300 rounded-full">
-                <Image source={icons.apple} resizeMode="contain" />
-              </View>
-              <View className="p-2 bg-gray-300 rounded-full">
-                <Image source={icons.facebook} resizeMode="contain" />
-              </View>
-            </View>
-          </View>
+          </TouchableOpacity>
+
           <CustomButton
-            title="Login"
+            title="Sign In"
             handlePress={submit}
-            containerStyles="mt-7"
-            isLoading={false}
+            containerStyles="mb-8"
+            isLoading={isSubmitting}
           />
-          <View className="flex justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-gray-100 font-pregular">
-              Don't have an account?
-            </Text>
-            <Link
-              href="/register"
-              className="text-lg font-psemibold text-secondary self-end"
-            >
-              Register
-            </Link>
-          </View>
+        </View>
 
-          {/* <Link
-            className="text-lg font-psemibold text-secondary self-end"
-            href=""
-            onPress={(e) => {
-              logout(e);
-            }}
+        {/* Divider */}
+        <View className="flex-row items-center mb-8">
+          <View className="flex-1 h-px bg-gray-700" />
+          <Text className="mx-4 text-gray-500 font-medium">or continue with</Text>
+          <View className="flex-1 h-px bg-gray-700" />
+        </View>
+
+        {/* Social Login Buttons */}
+        <View className="flex-row justify-center gap-4 mb-8">
+          <TouchableOpacity
+            onPress={() => handleSocialLogin("Google")}
+            className="w-16 h-16 bg-white/10 border border-gray-700 rounded-2xl items-center justify-center active:bg-white/20 active:scale-95"
+            activeOpacity={0.7}
           >
-            Logout
-          </Link> */}
+            <Image source={icons.google} className="w-8 h-8" resizeMode="contain" />
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            onPress={() => handleSocialLogin("Apple")}
+            className="w-16 h-16 bg-white/10 border border-gray-700 rounded-2xl items-center justify-center active:bg-white/20 active:scale-95"
+            activeOpacity={0.7}
+          >
+            <Image source={icons.apple} className="w-8 h-8" resizeMode="contain" />
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            onPress={() => handleSocialLogin("Facebook")}
+            className="w-16 h-16 bg-white/10 border border-gray-700 rounded-2xl items-center justify-center active:bg-white/20 active:scale-95"
+            activeOpacity={0.7}
+          >
+            <Image source={icons.facebook} className="w-8 h-8" resizeMode="contain" />
+          </TouchableOpacity>
+        </View>
+
+        {/* Sign Up Link */}
+        <View className="items-center">
+          <Text className="text-gray-400 text-base">
+            Don't have an account?{" "}
+            <Link href="/register" className="text-secondary font-bold">
+              Sign up
+            </Link>
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
