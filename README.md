@@ -27,7 +27,13 @@ This app **requires a development build** because it uses native modules that ar
 npm install
 ```
 
-### 2. Build and Install Development Build (Required First Step)
+### 2. Connect the backend (Supabase)
+
+1. Copy `.env.example` to `.env` and paste the project's anon (publishable) key into `EXPO_PUBLIC_SUPABASE_ANON_KEY`. Find it in the Supabase dashboard under Project Settings, API Keys.
+2. Open the Supabase SQL editor, paste the whole of `supabase/migrations/20261114000000_bikemesh_core.sql` and run it once.
+3. For testing, turn off "Confirm email" under Authentication, Sign In / Providers, Email. With it on, new riders must tap an email link before they can sign in.
+
+### 3. Build and Install Development Build (Required First Step)
 
 **For Android:**
 
@@ -41,7 +47,7 @@ npx expo run:android
 npx expo run:ios
 ```
 
-### 3. Start Development Server (After Development Build is Installed)
+### 4. Start Development Server (After Development Build is Installed)
 
 ```bash
 npx expo start
@@ -122,6 +128,13 @@ npx expo run:android  # or npx expo run:ios
    npx expo run:android  # or ios
    ```
 
+## 🧭 How it works
+
+- **Sign up**, then pair the tag on your bike: the app lists nearby unclaimed tags (iBeacon frames), closest first. One tag belongs to one account.
+- **While the app is open**, your phone listens for your tags and records where it last saw each bike (at most once a minute per bike).
+- **Mark a bike as lost** and every other rider's phone that passes it reports its location to you. Finders stay anonymous and only lost bikes are ever reported.
+- Rebuild the development build after pulling this change: it adds native modules (`async-storage`, `expo-linear-gradient`).
+
 ## 📱 App Features
 
 - **Bluetooth LE Connectivity** - Connect to bike tracking devices
@@ -138,7 +151,8 @@ bike-mesh/
 ├── app/                 # Expo Router screens
 ├── components/          # Reusable UI components
 ├── context/            # React Context providers
-├── lib/                # Utility libraries (Appwrite)
+├── lib/                # Supabase client, API calls, permissions, the tracking loop
+├── supabase/           # Database migrations
 ├── assets/             # Images, fonts, icons
 ├── android/            # Android native code
 ├── ios/                # iOS native code

@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Dimensions, Alert, Image, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, Alert, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { icons, images } from "../../constants";
+import { images } from "../../constants";
 import { CustomButton, FormField, Loader } from "../../components";
-import { createUser, getCurrentUser } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Register = () => {
   const router = useRouter();
-  const { setUser, setIsLoggedIn } = useGlobalContext();
+  const { register } = useGlobalContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     username: "",
@@ -26,26 +24,32 @@ const Register = () => {
       return;
     }
 
+    if (form.password.length < 6) {
+      Alert.alert("Password too short", "Use at least 6 characters.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      const result = await createUser(form.email, form.password, form.username);
-
-      setUser(result);
-      setIsLoggedIn(true);
-
-      Alert.alert("Success", "Account created successfully!");
-      router.replace("/location");
+      const signedIn = await register(form.email, form.password, form.username);
+      if (signedIn) {
+        // Straight to the bike list, which opens on "Add your first bike".
+        router.replace("/location");
+      } else {
+        Alert.alert(
+          "Confirm your email",
+          `We sent a link to ${form.email.trim()}. Tap it, then sign in.`
+        );
+        router.replace("/login");
+      }
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Alert.alert("Could not create account", error.message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleSocialLogin = (platform) => {
-    Alert.alert("Coming Soon", `${platform} registration will be available soon!`);
-  };
 
   return (
     <SafeAreaView className="flex-1">
@@ -77,7 +81,7 @@ const Register = () => {
               Bike Mesh
             </Text>
             <Text className="text-gray-400 text-center text-base">
-              Join the asset tracking revolution
+              Always know where your bike is
             </Text>
           </View>
 
@@ -87,7 +91,7 @@ const Register = () => {
               Create Account
             </Text>
             <Text className="text-lg text-gray-300">
-              Start tracking your valuable assets today
+              Pair your bike in the next step
             </Text>
           </View>
         </View>
@@ -108,6 +112,8 @@ const Register = () => {
             handleChangeText={(e) => setForm({ ...form, email: e })}
             otherStyles="mb-6"
             keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
             placeholder="Enter your email"
           />
 
@@ -125,40 +131,6 @@ const Register = () => {
             containerStyles="mb-8"
             isLoading={isSubmitting}
           />
-        </View>
-
-        {/* Divider */}
-        <View className="flex-row items-center mb-8">
-          <View className="flex-1 h-px bg-gray-700" />
-          <Text className="mx-4 text-gray-500 font-medium">or sign up with</Text>
-          <View className="flex-1 h-px bg-gray-700" />
-        </View>
-
-        {/* Social Login Buttons */}
-        <View className="flex-row justify-center gap-4 mb-8">
-          <TouchableOpacity
-            onPress={() => handleSocialLogin("Google")}
-            className="w-16 h-16 bg-white/10 border border-gray-700 rounded-2xl items-center justify-center active:bg-white/20 active:scale-95"
-            activeOpacity={0.7}
-          >
-            <Image source={icons.google} className="w-8 h-8" resizeMode="contain" />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            onPress={() => handleSocialLogin("Apple")}
-            className="w-16 h-16 bg-white/10 border border-gray-700 rounded-2xl items-center justify-center active:bg-white/20 active:scale-95"
-            activeOpacity={0.7}
-          >
-            <Image source={icons.apple} className="w-8 h-8" resizeMode="contain" />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            onPress={() => handleSocialLogin("Facebook")}
-            className="w-16 h-16 bg-white/10 border border-gray-700 rounded-2xl items-center justify-center active:bg-white/20 active:scale-95"
-            activeOpacity={0.7}
-          >
-            <Image source={icons.facebook} className="w-8 h-8" resizeMode="contain" />
-          </TouchableOpacity>
         </View>
 
         {/* Terms and Sign In Link */}

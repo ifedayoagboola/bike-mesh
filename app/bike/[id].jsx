@@ -1,481 +1,269 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
-  View,
+  Alert,
+  Linking,
+  ScrollView,
   Text,
   TouchableOpacity,
-  ScrollView,
-  Alert,
-  Share,
-  Linking,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import colors from "../../config/colors";
+import { useGlobalContext } from "../../context/GlobalProvider";
+import { listSightings, removeBike, setBikeLost } from "../../lib/api";
+import {
+  bikeStatus,
+  directionsUrl,
+  hasPosition,
+  lastSeenLine,
+  timeAgo,
+} from "../../lib/format";
 
 const BikeDetailsScreen = () => {
   const { id } = useLocalSearchParams();
-  const [bike, setBike] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { bikes, bikesLoaded, refreshBikes, nearby } = useGlobalContext();
+  const bike = bikes.find((b) => b.id === id);
 
-  // Sample bike data - replace with real data from your backend
-  const sampleBikes = [
-    {
-      id: "1",
-      title: "Commuter",
-      emoji: "🚲",
-      type: "road",
-      status: "home",
-      battery: 85,
-      lastSeen: "8 min ago",
-      location: {
-        latitude: 40.7128,
-        longitude: -74.0060,
-        address: "123 Main St, New York, NY"
-      },
-      speed: 0,
-      distance: 12.5,
-      trips: 24,
-      avgSpeed: 15.2,
-      geofences: [
-        { id: "home", name: "Home", type: "circle" },
-        { id: "work", name: "Work", type: "polygon" }
-      ],
-      firmwareVersion: "2.1.0",
-      hasUpdate: true,
-      lastTrip: {
-        date: "2024-01-15",
-        distance: 5.2,
-        duration: "25 min",
-        avgSpeed: 12.4
-      }
-    },
-    {
-      id: "2",
-      title: "Mountain Bike",
-      emoji: "🚵",
-      type: "mountain",
-      status: "away",
-      battery: 45,
-      lastSeen: "2 hours ago",
-      location: {
-        latitude: 40.7150,
-        longitude: -74.0080,
-        address: "456 Park Ave, New York, NY"
-      },
-      speed: 0,
-      distance: 8.3,
-      trips: 12,
-      avgSpeed: 18.7,
-      geofences: [
-        { id: "home", name: "Home", type: "circle" }
-      ],
-      firmwareVersion: "2.0.5",
-      hasUpdate: false,
-      lastTrip: {
-        date: "2024-01-14",
-        distance: 3.8,
-        duration: "18 min",
-        avgSpeed: 12.7
-      }
+  const [sightings, setSightings] = useState([]);
+  const [busy, setBusy] = useState(false);
+
+  const loadSightings = useCallback(async () => {
+    try {
+      setSightings(await listSightings(id, { limit: 20 }));
+    } catch (e) {
+      console.log("Could not load sightings:", e.message);
     }
-  ];
-
-  useEffect(() => {
-    // Simulate loading bike data
-    const loadBike = () => {
-      const foundBike = sampleBikes.find(b => b.id === id);
-      if (foundBike) {
-        setBike(foundBike);
-      } else {
-        Alert.alert("Error", "Bike not found");
-        router.back();
-      }
-      setIsLoading(false);
-    };
-
-    setTimeout(loadBike, 500);
   }, [id]);
 
-  const handleBack = () => {
-    router.back();
-  };
-
-  const handleEdit = () => {
-    Alert.prompt(
-      "Rename Bike",
-      "Enter new name:",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Rename",
-          onPress: (newName) => {
-            if (newName && newName.trim()) {
-              setBike(prev => ({ ...prev, title: newName.trim() }));
-            }
-          },
-        },
-      ],
-      "plain-text",
-      bike?.title
-    );
-  };
-
-  const handleShare = async () => {
-    try {
-      await Share.share({
-        message: `Check out my bike "${bike?.title}" at ${bike?.location.address}`,
-        title: bike?.title,
-      });
-    } catch (error) {
-      console.log("Error sharing:", error);
-    }
-  };
-
-  const handleFindBike = () => {
-    router.push("/(tabs)/find");
-  };
-
-  const handleViewOnMap = () => {
-    router.push("/(tabs)/map");
-  };
-
-  const handleSetHome = () => {
-    // Navigate to geofence editor
-    router.push({
-      pathname: "/(tabs)/map",
-      params: { openGeofenceEditor: true, bikeId: bike?.id }
-    });
-  };
-
-  const handlePingBike = () => {
-    Alert.alert(
-      "Ping Bike",
-      "Make your bike beep to help you find it?",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Ping", onPress: () => {
-          // Simulate pinging the bike
-          Alert.alert("Success", "Ping sent to your bike!");
-        }}
-      ]
-    );
-  };
-
-  const handleFirmwareUpdate = () => {
-    // Navigate to firmware update modal
-    router.push({
-      pathname: "/(tabs)/home",
-      params: { openFirmwareUpdate: true, bikeId: bike?.id }
-    });
-  };
-
-  const handleNavigate = () => {
-    const { latitude, longitude } = bike?.location || {};
-    if (latitude && longitude) {
-      const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
-      Linking.openURL(url);
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "home": return "#00F704";
-      case "away": return "#FFA500";
-      default: return "#808080";
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch (status) {
-      case "home": return "At Home";
-      case "away": return "Away";
-      default: return "Unknown";
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <SafeAreaView className="flex-1" style={{ backgroundColor: colors.dark }}>
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-white text-base">Loading...</Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
+  // Reload the history whenever a new sighting lands on the bike.
+  useEffect(() => {
+    loadSightings();
+  }, [loadSightings, bike?.last_seen_at]);
 
   if (!bike) {
     return (
       <SafeAreaView className="flex-1" style={{ backgroundColor: colors.dark }}>
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-white text-base">Bike not found</Text>
+        <Stack.Screen options={{ headerShown: false }} />
+        <View className="flex-1 justify-center items-center px-6">
+          <Text className="text-white text-base mb-4">
+            {bikesLoaded ? "This bike is no longer on your account." : "Loading..."}
+          </Text>
+          {bikesLoaded && (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Text className="text-secondary font-semibold text-base">Go back</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </SafeAreaView>
     );
   }
 
+  const status = bikeStatus(bike, nearby);
+  const located = hasPosition(bike);
+  const position = located
+    ? { latitude: bike.last_lat, longitude: bike.last_lng }
+    : null;
+
+  const toggleLost = async (isLost) => {
+    setBusy(true);
+    try {
+      await setBikeLost(bike.id, isLost);
+      await refreshBikes();
+    } catch (e) {
+      Alert.alert("Could not update", e.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleMarkLost = () => {
+    Alert.alert(
+      `Mark ${bike.name} as lost?`,
+      "Other BikeMesh riders' phones will report its location to you when they pass it. They never see who you are.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Mark as lost", style: "destructive", onPress: () => toggleLost(true) },
+      ]
+    );
+  };
+
+  const handleRemove = () => {
+    Alert.alert(
+      "Remove bike",
+      `Remove "${bike.name}"? Its location history is deleted and the tag can be paired again.`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Remove",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await removeBike(bike.id);
+              await refreshBikes();
+              router.back();
+            } catch (e) {
+              Alert.alert("Could not remove", e.message);
+            }
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <SafeAreaView className="flex-1" style={{ backgroundColor: colors.dark }}>
-      <Stack.Screen 
-        options={{ 
-          headerShown: false,
-          title: bike.title
-        }} 
-      />
+      <Stack.Screen options={{ headerShown: false }} />
 
-      {/* Header */}
       <View className="flex-row items-center px-5 py-4 border-b border-gray-800">
-        <TouchableOpacity onPress={handleBack} className="p-2">
-          <MaterialCommunityIcons
-            name="arrow-left"
-            size={24}
-            color={colors.white}
-          />
+        <TouchableOpacity onPress={() => router.back()} className="p-2">
+          <MaterialCommunityIcons name="arrow-left" size={24} color={colors.white} />
         </TouchableOpacity>
-        
-        <View className="flex-1 ml-3">
-          <Text className="text-white text-xl font-semibold">{bike.title}</Text>
-          <View className="flex-row items-center mt-1">
-            <View 
-              className="w-2 h-2 rounded-full mr-2"
-              style={{ backgroundColor: getStatusColor(bike.status) }}
-            />
-            <Text className="text-secondary text-sm">{getStatusText(bike.status)}</Text>
-          </View>
+        <View className="w-12 h-12 rounded-full bg-gray-800 justify-center items-center ml-2">
+          <Text className="text-2xl">{bike.emoji}</Text>
         </View>
-
-        <View className="flex-row">
-          <TouchableOpacity onPress={handleEdit} className="p-2 ml-2">
-            <MaterialCommunityIcons
-              name="pencil"
-              size={20}
-              color={colors.secondary}
+        <View className="flex-1 ml-3">
+          <Text className="text-white text-xl font-semibold">{bike.name}</Text>
+          <View className="flex-row items-center mt-1">
+            <View
+              className="w-2 h-2 rounded-full mr-2"
+              style={{ backgroundColor: status.color }}
             />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleShare} className="p-2 ml-2">
-            <MaterialCommunityIcons
-              name="share-variant"
-              size={20}
-              color={colors.secondary}
-            />
-          </TouchableOpacity>
+            <Text className="text-sm" style={{ color: status.color }}>
+              {status.label}
+            </Text>
+          </View>
         </View>
       </View>
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {/* Bike Icon and Basic Info */}
-        <View className="flex-row items-center p-5">
-          <View className="w-20 h-20 rounded-full bg-gray-800 justify-center items-center mr-4">
-            <Text className="text-4xl">{bike.emoji}</Text>
+        {bike.is_lost && (
+          <View className="mx-5 mt-5 bg-red-500/20 border border-red-500 rounded-2xl p-4">
+            <Text className="text-white font-semibold text-base mb-1">
+              The mesh is looking for {bike.name}
+            </Text>
+            <Text className="text-gray-300 text-sm">
+              You get an alert when another rider's phone passes it. Marked lost{" "}
+              {timeAgo(bike.lost_at).toLowerCase()}.
+            </Text>
           </View>
-          <View className="flex-1">
-            <Text className="text-white text-2xl font-bold mb-1">{bike.title}</Text>
-            <Text className="text-secondary text-base capitalize">{bike.type} bike</Text>
-          </View>
-        </View>
+        )}
 
-        {/* Status Overview */}
-        <View className="px-5 mb-5">
-          <View className="bg-gray-800 rounded-2xl p-5 flex-row justify-between">
-            <View className="items-center flex-1">
-              <MaterialCommunityIcons
-                name="battery"
-                size={24}
-                color={bike.battery > 20 ? "#00F704" : "#FF4444"}
-              />
-              <Text className="text-secondary text-xs mt-2 mb-1">Battery</Text>
-              <Text className="text-white text-base font-semibold">{bike.battery}%</Text>
-            </View>
-            
-            <View className="items-center flex-1">
-              <MaterialCommunityIcons
-                name="clock-outline"
-                size={24}
-                color={colors.secondary}
-              />
-              <Text className="text-secondary text-xs mt-2 mb-1">Last Seen</Text>
-              <Text className="text-white text-base font-semibold">{bike.lastSeen}</Text>
-            </View>
-
-            <View className="items-center flex-1">
-              <MaterialCommunityIcons
-                name="speedometer"
-                size={24}
-                color={colors.secondary}
-              />
-              <Text className="text-secondary text-xs mt-2 mb-1">Speed</Text>
-              <Text className="text-white text-base font-semibold">{bike.speed} km/h</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Location Map */}
-        <View className="px-5 mb-5">
-          <Text className="text-white text-lg font-semibold mb-3">Current Location</Text>
-          <View className="relative rounded-2xl overflow-hidden mb-2">
-            <MapView
-              className="h-48"
-              provider={PROVIDER_GOOGLE}
-              initialRegion={{
-                ...bike.location,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-              }}
-            >
-              <Marker
-                coordinate={bike.location}
-                title={bike.title}
+        {/* Last seen */}
+        <View className="px-5 mt-5">
+          <Text className="text-white text-lg font-semibold mb-3">Last seen</Text>
+          {located ? (
+            <View className="rounded-2xl overflow-hidden">
+              <MapView
+                key={`${bike.last_lat},${bike.last_lng}`}
+                style={{ height: 220 }}
+                provider={PROVIDER_GOOGLE}
+                initialRegion={{
+                  ...position,
+                  latitudeDelta: 0.005,
+                  longitudeDelta: 0.005,
+                }}
               >
-                <View className="w-8 h-8 rounded-full bg-primary justify-center items-center border-2 border-white">
-                  <MaterialCommunityIcons
-                    name="bike"
-                    size={16}
-                    color={colors.white}
-                  />
-                </View>
-              </Marker>
-            </MapView>
-            <TouchableOpacity 
-              className="absolute bottom-3 right-3 bg-primary flex-row items-center px-3 py-2 rounded-full"
-              onPress={handleNavigate}
+                <Marker coordinate={position} title={bike.name}>
+                  <View
+                    className="w-9 h-9 rounded-full justify-center items-center border-2 border-white"
+                    style={{ backgroundColor: status.color }}
+                  >
+                    <MaterialCommunityIcons name="bike" size={18} color={colors.black} />
+                  </View>
+                </Marker>
+              </MapView>
+            </View>
+          ) : (
+            <View className="bg-gray-800 rounded-2xl p-5 items-center">
+              <MaterialCommunityIcons name="map-marker-question" size={32} color="#9CA3AF" />
+              <Text className="text-gray-300 text-sm text-center mt-2">
+                No location yet. Keep the app open near your bike for a minute and it will appear
+                here.
+              </Text>
+            </View>
+          )}
+          <Text className="text-gray-400 text-sm mt-2">{lastSeenLine(bike, nearby)}</Text>
+
+          {located && (
+            <TouchableOpacity
+              className="bg-secondary rounded-xl p-4 mt-3 flex-row items-center justify-center"
+              onPress={() => Linking.openURL(directionsUrl(bike.last_lat, bike.last_lng))}
+            >
+              <MaterialCommunityIcons name="navigation" size={20} color={colors.black} />
+              <Text className="text-black font-semibold text-base ml-2">
+                Directions to {bike.name}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
+        {/* Lost / found */}
+        <View className="px-5 mt-5">
+          {bike.is_lost ? (
+            <TouchableOpacity
+              className="bg-gray-800 rounded-xl p-4 flex-row items-center justify-center"
+              onPress={() => toggleLost(false)}
+              disabled={busy}
+            >
+              <MaterialCommunityIcons name="check-circle" size={20} color={colors.secondary} />
+              <Text className="text-white font-semibold text-base ml-2">I found my bike</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              className="bg-red-500/20 border border-red-500 rounded-xl p-4 flex-row items-center justify-center"
+              onPress={handleMarkLost}
+              disabled={busy}
+            >
+              <MaterialCommunityIcons name="alert-circle" size={20} color="#FF4444" />
+              <Text className="text-red-400 font-semibold text-base ml-2">Mark as lost</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
+        {/* History */}
+        <View className="px-5 mt-6">
+          <Text className="text-white text-lg font-semibold mb-3">Recent sightings</Text>
+          {sightings.length === 0 && (
+            <Text className="text-gray-400 text-sm">Nothing recorded yet.</Text>
+          )}
+          {sightings.map((s) => (
+            <TouchableOpacity
+              key={s.id}
+              className="bg-gray-800 rounded-xl p-4 flex-row items-center mb-2"
+              onPress={() => Linking.openURL(directionsUrl(s.lat, s.lng))}
             >
               <MaterialCommunityIcons
-                name="navigation"
+                name={s.source === "crowd" ? "account-group" : "cellphone"}
                 size={20}
-                color={colors.white}
+                color={s.source === "crowd" ? "#FFA500" : colors.secondary}
               />
-              <Text className="text-white text-sm font-semibold ml-1">Navigate</Text>
+              <View className="flex-1 ml-3">
+                <Text className="text-white text-sm font-semibold">
+                  {s.source === "crowd" ? "Spotted by the mesh" : "Seen by your phone"}
+                </Text>
+                <Text className="text-gray-400 text-xs">
+                  {new Date(s.seen_at).toLocaleString()}
+                </Text>
+              </View>
+              <MaterialCommunityIcons name="chevron-right" size={20} color="#6B7280" />
             </TouchableOpacity>
-          </View>
-          <Text className="text-secondary text-sm text-center">{bike.location.address}</Text>
-        </View>
-
-        {/* Quick Actions */}
-        <View className="px-5 mb-5">
-          <Text className="text-white text-lg font-semibold mb-3">Quick Actions</Text>
-          <View className="flex-row flex-wrap justify-between">
-            <TouchableOpacity className="bg-gray-800 rounded-2xl p-4 items-center w-[48%] mb-3" onPress={handleFindBike}>
-              <MaterialCommunityIcons
-                name="radar"
-                size={32}
-                color={colors.primary}
-              />
-              <Text className="text-white text-sm font-semibold mt-2 mb-1">Find Bike</Text>
-              <Text className="text-secondary text-xs text-center">Use radar to locate</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity className="bg-gray-800 rounded-2xl p-4 items-center w-[48%] mb-3" onPress={handleViewOnMap}>
-              <MaterialCommunityIcons
-                name="map"
-                size={32}
-                color={colors.primary}
-              />
-              <Text className="text-white text-sm font-semibold mt-2 mb-1">View on Map</Text>
-              <Text className="text-secondary text-xs text-center">See on full map</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity className="bg-gray-800 rounded-2xl p-4 items-center w-[48%] mb-3" onPress={handleSetHome}>
-              <MaterialCommunityIcons
-                name="home"
-                size={32}
-                color={colors.primary}
-              />
-              <Text className="text-white text-sm font-semibold mt-2 mb-1">Set Home</Text>
-              <Text className="text-secondary text-xs text-center">Create geofence</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity className="bg-gray-800 rounded-2xl p-4 items-center w-[48%] mb-3" onPress={handlePingBike}>
-              <MaterialCommunityIcons
-                name="bell"
-                size={32}
-                color={colors.primary}
-              />
-              <Text className="text-white text-sm font-semibold mt-2 mb-1">Ping Bike</Text>
-              <Text className="text-secondary text-xs text-center">Make it beep</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Statistics */}
-        <View className="px-5 mb-5">
-          <Text className="text-white text-lg font-semibold mb-3">Statistics</Text>
-          <View className="flex-row justify-between">
-            <View className="bg-gray-800 rounded-2xl p-4 items-center flex-1 mx-1">
-              <Text className="text-white text-xl font-bold mb-1">{bike.distance}</Text>
-              <Text className="text-secondary text-xs text-center">Total Distance (km)</Text>
-            </View>
-            <View className="bg-gray-800 rounded-2xl p-4 items-center flex-1 mx-1">
-              <Text className="text-white text-xl font-bold mb-1">{bike.trips}</Text>
-              <Text className="text-secondary text-xs text-center">Total Trips</Text>
-            </View>
-            <View className="bg-gray-800 rounded-2xl p-4 items-center flex-1 mx-1">
-              <Text className="text-white text-xl font-bold mb-1">{bike.avgSpeed}</Text>
-              <Text className="text-secondary text-xs text-center">Avg Speed (km/h)</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Geofences */}
-        <View className="px-5 mb-5">
-          <Text className="text-white text-lg font-semibold mb-3">Geofences</Text>
-          {bike.geofences.map((geofence) => (
-            <View key={geofence.id} className="bg-gray-800 rounded-xl p-4 flex-row items-center mb-2">
-              <MaterialCommunityIcons
-                name={geofence.type === "circle" ? "circle-outline" : "shape-outline"}
-                size={20}
-                color={colors.secondary}
-              />
-              <Text className="text-white text-base font-semibold ml-3 flex-1">{geofence.name}</Text>
-              <Text className="text-secondary text-xs capitalize">{geofence.type}</Text>
-            </View>
           ))}
         </View>
 
-        {/* Firmware */}
-        <View className="px-5 mb-5">
-          <Text className="text-white text-lg font-semibold mb-3">Firmware</Text>
-          <View className="bg-gray-800 rounded-2xl p-4 flex-row items-center justify-between">
-            <View className="flex-1">
-              <Text className="text-white text-base font-semibold mb-1">Version {bike.firmwareVersion}</Text>
-              {bike.hasUpdate && (
-                <View className="bg-primary px-2 py-1 rounded-xl self-start">
-                  <Text className="text-white text-xs font-semibold">Update Available</Text>
-                </View>
-              )}
-            </View>
-            {bike.hasUpdate && (
-              <TouchableOpacity className="bg-primary px-4 py-2 rounded-full" onPress={handleFirmwareUpdate}>
-                <Text className="text-white text-sm font-semibold">Update Now</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-
-        {/* Last Trip */}
-        <View className="px-5 mb-5">
-          <Text className="text-white text-lg font-semibold mb-3">Last Trip</Text>
-          <View className="bg-gray-800 rounded-2xl p-4">
-            <Text className="text-white text-base font-semibold mb-3">{bike.lastTrip.date}</Text>
-            <View className="flex-row justify-between">
-              <View className="items-center flex-1">
-                <Text className="text-white text-base font-semibold mb-1">{bike.lastTrip.distance} km</Text>
-                <Text className="text-secondary text-xs">Distance</Text>
-              </View>
-              <View className="items-center flex-1">
-                <Text className="text-white text-base font-semibold mb-1">{bike.lastTrip.duration}</Text>
-                <Text className="text-secondary text-xs">Duration</Text>
-              </View>
-              <View className="items-center flex-1">
-                <Text className="text-white text-base font-semibold mb-1">{bike.lastTrip.avgSpeed} km/h</Text>
-                <Text className="text-secondary text-xs">Avg Speed</Text>
-              </View>
-            </View>
-          </View>
+        <View className="px-5 mt-6 mb-10">
+          <Text className="text-gray-500 text-xs mb-3">
+            Tag {bike.tag_uuid.slice(-8).toUpperCase()}
+          </Text>
+          <TouchableOpacity onPress={handleRemove}>
+            <Text className="text-red-400 font-semibold text-base">Remove this bike</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default BikeDetailsScreen; 
+export default BikeDetailsScreen;

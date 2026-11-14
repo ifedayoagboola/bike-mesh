@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Dimensions, Alert, Image, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, Alert, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { icons, images } from "../../constants";
+import { images } from "../../constants";
 import { CustomButton, FormField, Loader } from "../../components";
-import { getCurrentUser, logout, signIn } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Login = () => {
   const router = useRouter();
-  const { setUser, setIsLoggedIn } = useGlobalContext();
+  const { login } = useGlobalContext();
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
@@ -28,23 +26,15 @@ const Login = () => {
     setSubmitting(true);
 
     try {
-      await signIn(form.email, form.password);
-      const result = await getCurrentUser();
-      setUser(result);
-      setIsLoggedIn(true);
-
-      // Alert.alert("Success", "User signed in successfully");
+      await login(form.email, form.password);
       router.replace("/location");
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Alert.alert("Could not sign in", error.message);
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleSocialLogin = (platform) => {
-    Alert.alert("Coming Soon", `${platform} login will be available soon!`);
-  };
 
   return (
     <SafeAreaView className="flex-1">
@@ -76,7 +66,7 @@ const Login = () => {
               Bike Mesh
             </Text>
             <Text className="text-gray-400 text-center text-base">
-              The best asset tracker app alive
+              Always know where your bike is
             </Text>
           </View>
 
@@ -86,7 +76,7 @@ const Login = () => {
               Welcome back!
             </Text>
             <Text className="text-lg text-gray-300">
-              Sign in to continue tracking your assets
+              Sign in to see your bikes
             </Text>
           </View>
         </View>
@@ -99,6 +89,8 @@ const Login = () => {
             handleChangeText={(e) => setForm({ ...form, email: e })}
             otherStyles="mb-6"
             keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
             placeholder="Enter your email"
           />
 
@@ -106,15 +98,9 @@ const Login = () => {
             title="Password"
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
-            otherStyles="mb-4"
+            otherStyles="mb-6"
             placeholder="Enter your password"
           />
-          
-          <TouchableOpacity className="self-end mb-6">
-            <Text className="text-secondary font-semibold text-base">
-              Forgot password?
-            </Text>
-          </TouchableOpacity>
 
           <CustomButton
             title="Sign In"
@@ -122,40 +108,6 @@ const Login = () => {
             containerStyles="mb-8"
             isLoading={isSubmitting}
           />
-        </View>
-
-        {/* Divider */}
-        <View className="flex-row items-center mb-8">
-          <View className="flex-1 h-px bg-gray-700" />
-          <Text className="mx-4 text-gray-500 font-medium">or continue with</Text>
-          <View className="flex-1 h-px bg-gray-700" />
-        </View>
-
-        {/* Social Login Buttons */}
-        <View className="flex-row justify-center gap-4 mb-8">
-          <TouchableOpacity
-            onPress={() => handleSocialLogin("Google")}
-            className="w-16 h-16 bg-white/10 border border-gray-700 rounded-2xl items-center justify-center active:bg-white/20 active:scale-95"
-            activeOpacity={0.7}
-          >
-            <Image source={icons.google} className="w-8 h-8" resizeMode="contain" />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            onPress={() => handleSocialLogin("Apple")}
-            className="w-16 h-16 bg-white/10 border border-gray-700 rounded-2xl items-center justify-center active:bg-white/20 active:scale-95"
-            activeOpacity={0.7}
-          >
-            <Image source={icons.apple} className="w-8 h-8" resizeMode="contain" />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            onPress={() => handleSocialLogin("Facebook")}
-            className="w-16 h-16 bg-white/10 border border-gray-700 rounded-2xl items-center justify-center active:bg-white/20 active:scale-95"
-            activeOpacity={0.7}
-          >
-            <Image source={icons.facebook} className="w-8 h-8" resizeMode="contain" />
-          </TouchableOpacity>
         </View>
 
         {/* Sign Up Link */}

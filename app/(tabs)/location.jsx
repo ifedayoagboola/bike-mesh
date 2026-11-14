@@ -1,233 +1,172 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
-  StyleSheet,
-  View,
-  FlatList,
-  TouchableOpacity,
-  RefreshControl,
   Alert,
+  FlatList,
+  Linking,
   Modal,
+  RefreshControl,
+  StyleSheet,
   TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import colors from "../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import colors from "../../config/colors";
 import BikeCard from "../../components/BikeCard";
 import Text from "../../components/Text";
 import AddBikeWizard from "../../components/AddBikeWizard";
-import FirmwareUpdateModal from "../../components/FirmwareUpdateModal";
-import GeofenceEditor from "../../components/GeofenceEditor";
-
-// Sample bike data - replace with real data from your backend
-const sampleBikes = [
-  {
-    id: "1",
-    title: "Commuter",
-    subTitle: "At home • 85% battery • 8 min ago",
-    status: "home",
-    battery: 85,
-    lastSeen: new Date(Date.now() - 8 * 60 * 1000), // 8 minutes ago
-    uuid: "12345678",
-    type: "commuter",
-    firmwareUpdate: true, // Show firmware update banner
-  },
-  {
-    id: "2",
-    title: "Mountain Bike",
-    subTitle: "Away • 60% battery • 2 hr ago",
-    status: "away",
-    battery: 60,
-    lastSeen: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
-    uuid: "87654321",
-    type: "mountain",
-  },
-  {
-    id: "3",
-    title: "Road Bike",
-    subTitle: "Unknown • 20% battery • 1 day ago",
-    status: "unknown",
-    battery: 20,
-    lastSeen: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
-    uuid: "11223344",
-    type: "road",
-  },
-];
+import { useGlobalContext } from "../../context/GlobalProvider";
+import { removeBike, renameBike } from "../../lib/api";
 
 const HomeScreen = () => {
-  const [bikes, setBikes] = useState(sampleBikes);
+  const {
+    user,
+    bikes,
+    bikesLoaded,
+    refreshBikes,
+    nearby,
+    trackingAllowed,
+    enableTracking,
+  } = useGlobalContext();
+
   const [refreshing, setRefreshing] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
   const [showAddBikeWizard, setShowAddBikeWizard] = useState(false);
-  const [showFirmwareUpdate, setShowFirmwareUpdate] = useState(false);
-  const [selectedBikeForUpdate, setSelectedBikeForUpdate] = useState(null);
-  const [showGeofenceEditor, setShowGeofenceEditor] = useState(false);
-  const [selectedBikeForGeofence, setSelectedBikeForGeofence] = useState(null);
-  const [showRenameModal, setShowRenameModal] = useState(false);
-  const [selectedBikeForRename, setSelectedBikeForRename] = useState(null);
+  const [bikeToRename, setBikeToRename] = useState(null);
   const [newBikeName, setNewBikeName] = useState("");
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    // Simulate API call to refresh bike data
-    setTimeout(() => {
+    try {
+      await refreshBikes();
+    } catch (e) {
+      Alert.alert("Could not refresh", e.message);
+    } finally {
       setRefreshing(false);
-      // Update last seen times to simulate fresh data
-      setBikes(prevBikes => 
-        prevBikes.map(bike => ({
-          ...bike,
-          lastSeen: new Date(),
-        }))
-      );
-    }, 2000);
-  }, []);
-
-  const handleSync = () => {
-    setIsSyncing(true);
-    // Simulate cloud sync
-    setTimeout(() => {
-      setIsSyncing(false);
-      onRefresh();
-    }, 1500);
-  };
-
-  const handleBikePress = (bike) => {
-    // Navigate directly to bike details screen
-    router.push(`/bike/${bike.id}`);
-  };
-
-  const handleRename = (bike) => {
-    console.log("Rename button pressed for:", bike.title);
-    setSelectedBikeForRename(bike);
-    setNewBikeName(bike.title);
-    setShowRenameModal(true);
-  };
-
-  const handleRenameConfirm = () => {
-    if (newBikeName && newBikeName.trim() && newBikeName.trim() !== selectedBikeForRename.title) {
-      setBikes(prevBikes =>
-        prevBikes.map(b =>
-          b.id === selectedBikeForRename.id ? { ...b, title: newBikeName.trim() } : b
-        )
-      );
     }
-    setShowRenameModal(false);
-    setSelectedBikeForRename(null);
-    setNewBikeName("");
+  }, [refreshBikes]);
+
+  const handleEnableTracking = async () => {
+    const result = await enableTracking();
+    if (result === "blocked") Linking.openSettings();
   };
 
-  const handleRenameCancel = () => {
-    setShowRenameModal(false);
-    setSelectedBikeForRename(null);
-    setNewBikeName("");
+  const openRename = (bike) => {
+    setBikeToRename(bike);
+    setNewBikeName(bike.name);
+  };
+
+  const confirmRename = async () => {
+    const name = newBikeName.trim();
+    const bike = bikeToRename;
+    setBikeToRename(null);
+    if (!name || name === bike.name) return;
+    try {
+      await renameBike(bike.id, name);
+      await refreshBikes();
+    } catch (e) {
+      Alert.alert("Could not rename", e.message);
+    }
   };
 
   const handleRemove = (bike) => {
-    console.log("Remove button pressed for:", bike.title);
     Alert.alert(
-      "Remove Bike",
-      `Are you sure you want to remove "${bike.title}"?`,
+      "Remove bike",
+      `Remove "${bike.name}"? Its location history is deleted and the tag can be paired again.`,
       [
         { text: "Cancel", style: "cancel" },
         {
           text: "Remove",
           style: "destructive",
-          onPress: () => {
-            setBikes(prevBikes => prevBikes.filter(b => b.id !== bike.id));
+          onPress: async () => {
+            try {
+              await removeBike(bike.id);
+              await refreshBikes();
+            } catch (e) {
+              Alert.alert("Could not remove", e.message);
+            }
           },
         },
       ]
     );
   };
 
-  const handleAddBike = (newBike) => {
-    setBikes(prevBikes => [newBike, ...prevBikes]);
-  };
-
-  const handleFirmwareUpdate = (bike) => {
-    setSelectedBikeForUpdate(bike);
-    setShowFirmwareUpdate(true);
-  };
-
-  const handleFirmwareUpdateComplete = () => {
-    // Update the bike's firmware version and remove the update banner
-    setBikes(prevBikes =>
-      prevBikes.map(bike =>
-        bike.id === selectedBikeForUpdate.id
-          ? { ...bike, firmwareUpdate: false }
-          : bike
-      )
-    );
-  };
-
-  const handleSetHome = (bike) => {
-    console.log("Set Home button pressed for:", bike.title);
-    setSelectedBikeForGeofence(bike);
-    setShowGeofenceEditor(true);
-  };
-
-  const handleGeofenceSaved = (geofence) => {
-    console.log("Geofence saved for bike:", geofence);
-    // In a real app, you'd save this to your backend
-  };
-  return (
-    <SafeAreaView style={styles.screen} className="p-4">
-      {/* Header */}
-      <View className="py-4">
-        <View className="flex-row items-center justify-between">
-          <View>
-            <Text className="text-white font-psemibold text-3xl">My Bikes</Text>
-            <Text className="text-white font-pregular text-base">
-              Track your connected bicycles
-            </Text>
-          </View>
-          <TouchableOpacity
-            className="w-12 h-12 bg-primary rounded-full items-center justify-center"
-            onPress={() => setShowAddBikeWizard(true)}
-          >
-            <MaterialCommunityIcons
-              name="plus"
-              size={24}
-              color={colors.white}
-            />
-          </TouchableOpacity>
+  const renderEmpty = () => {
+    if (!bikesLoaded) return null;
+    return (
+      <View className="items-center px-6 pt-16">
+        <View className="w-24 h-24 bg-gray-800 rounded-full items-center justify-center mb-6">
+          <MaterialCommunityIcons name="bike" size={48} color={colors.secondary} />
         </View>
-      </View>
-
-      {/* Sync Button */}
-      <View className="flex-row justify-end mb-4">
+        <Text className="text-white font-psemibold text-2xl text-center mb-2">
+          Welcome{user?.username ? `, ${user.username}` : ""}
+        </Text>
+        <Text className="text-gray-300 font-pregular text-base text-center mb-8">
+          Pair the tag on your bike and BikeMesh will remember where it was last seen.
+        </Text>
         <TouchableOpacity
-          className="flex-row items-center bg-gray-800 px-4 py-2 rounded-full"
-          onPress={handleSync}
-          disabled={isSyncing}
+          className="bg-secondary rounded-xl p-4 w-full"
+          onPress={() => setShowAddBikeWizard(true)}
         >
-          <MaterialCommunityIcons
-            name="sync"
-            size={20}
-            color={colors.secondary}
-            style={isSyncing ? { transform: [{ rotate: '360deg' }] } : null}
-          />
-          <Text className="text-secondary font-pregular text-sm ml-2">
-            {isSyncing ? "Syncing..." : "Sync"}
+          <Text className="text-black font-psemibold text-center text-base">
+            Add your first bike
           </Text>
         </TouchableOpacity>
       </View>
+    );
+  };
 
-      {/* Bike List */}
+  return (
+    <SafeAreaView style={styles.screen} className="p-4">
+      <View className="py-4 flex-row items-center justify-between">
+        <View>
+          <Text className="text-white font-psemibold text-3xl">My Bikes</Text>
+          <Text className="text-gray-300 font-pregular text-base">
+            {bikes.length === 0
+              ? "No bikes paired yet"
+              : `${bikes.length} bike${bikes.length > 1 ? "s" : ""} paired`}
+          </Text>
+        </View>
+        {bikes.length > 0 && (
+          <TouchableOpacity
+            className="w-12 h-12 bg-secondary rounded-full items-center justify-center"
+            onPress={() => setShowAddBikeWizard(true)}
+          >
+            <MaterialCommunityIcons name="plus" size={24} color={colors.black} />
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {bikes.length > 0 && !trackingAllowed && (
+        <TouchableOpacity
+          className="bg-gray-800 rounded-xl p-4 mb-2 flex-row items-center"
+          onPress={handleEnableTracking}
+        >
+          <MaterialCommunityIcons name="bluetooth-off" size={24} color="#FFA500" />
+          <View className="flex-1 ml-3">
+            <Text className="text-white font-psemibold text-base">Tracking is off</Text>
+            <Text className="text-gray-400 font-pregular text-sm">
+              Allow Bluetooth and location so your phone can see your bikes.
+            </Text>
+          </View>
+          <MaterialCommunityIcons name="chevron-right" size={24} color="#6B7280" />
+        </TouchableOpacity>
+      )}
+
       <FlatList
         data={bikes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <BikeCard
             bike={item}
-            onPress={() => handleBikePress(item)}
-            onRename={() => handleRename(item)}
+            nearby={nearby}
+            onPress={() => router.push(`/bike/${item.id}`)}
+            onRename={() => openRename(item)}
             onRemove={() => handleRemove(item)}
-            onFirmwareUpdate={() => handleFirmwareUpdate(item)}
-            onSetHome={() => handleSetHome(item)}
           />
         )}
+        ListEmptyComponent={renderEmpty}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -240,65 +179,43 @@ const HomeScreen = () => {
         contentContainerStyle={{ paddingBottom: 20 }}
       />
 
-      {/* Add Bike Wizard */}
       <AddBikeWizard
         visible={showAddBikeWizard}
         onClose={() => setShowAddBikeWizard(false)}
-        onBikeAdded={handleAddBike}
       />
 
-      {/* Firmware Update Modal */}
-      <FirmwareUpdateModal
-        visible={showFirmwareUpdate}
-        onClose={() => setShowFirmwareUpdate(false)}
-        bike={selectedBikeForUpdate}
-        onUpdateComplete={handleFirmwareUpdateComplete}
-      />
-
-      {/* Geofence Editor Modal */}
-      <GeofenceEditor
-        visible={showGeofenceEditor}
-        onClose={() => setShowGeofenceEditor(false)}
-        onGeofenceSaved={handleGeofenceSaved}
-        bike={selectedBikeForGeofence}
-      />
-
-      {/* Rename Modal */}
       <Modal
-        visible={showRenameModal}
-        transparent={true}
+        visible={!!bikeToRename}
+        transparent
         animationType="fade"
-        onRequestClose={handleRenameCancel}
+        onRequestClose={() => setBikeToRename(null)}
       >
         <View className="flex-1 justify-center items-center bg-black/50">
           <View className="bg-gray-800 rounded-2xl p-6 mx-4 w-80">
             <Text className="text-white text-lg font-semibold mb-4 text-center">
-              Rename Bike
+              Rename bike
             </Text>
-            
             <TextInput
               className="bg-gray-700 rounded-xl p-4 text-white border border-gray-600 mb-6"
               placeholder="Enter new name"
-              placeholderTextColor={colors.secondary}
+              placeholderTextColor="#9CA3AF"
               value={newBikeName}
               onChangeText={setNewBikeName}
-              autoFocus={true}
-              maxLength={20}
+              autoFocus
+              maxLength={40}
             />
-            
-            <View className="flex-row space-x-3">
+            <View className="flex-row">
               <TouchableOpacity
-                className="flex-1 bg-gray-700 rounded-xl py-3"
-                onPress={handleRenameCancel}
+                className="flex-1 bg-gray-700 rounded-xl py-3 mr-3"
+                onPress={() => setBikeToRename(null)}
               >
                 <Text className="text-white text-center font-semibold">Cancel</Text>
               </TouchableOpacity>
-              
               <TouchableOpacity
-                className="flex-1 bg-primary rounded-xl py-3"
-                onPress={handleRenameConfirm}
+                className="flex-1 bg-secondary rounded-xl py-3"
+                onPress={confirmRename}
               >
-                <Text className="text-white text-center font-semibold">Rename</Text>
+                <Text className="text-black text-center font-semibold">Rename</Text>
               </TouchableOpacity>
             </View>
           </View>

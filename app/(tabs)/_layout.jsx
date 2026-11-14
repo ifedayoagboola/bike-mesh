@@ -5,7 +5,8 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 import Icon from "../../components/Icon";
 
 const TabLayout = () => {
-  const { isLoading, isLoggedIn } = useGlobalContext();
+  const { isLoading, isLoggedIn, alerts } = useGlobalContext();
+  const openAlerts = alerts.filter((a) => !a.resolved).length;
 
   if (!isLoading && !isLoggedIn) return <Redirect href="/login" />;
 
@@ -47,6 +48,8 @@ const TabLayout = () => {
         <Tabs.Screen
           name="find"
           options={{
+            // Radar finder is not real yet: keep the file, hide the tab.
+            href: null,
             title: "Find",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
@@ -80,6 +83,7 @@ const TabLayout = () => {
           name="alerts"
           options={{
             title: "Alerts",
+            tabBarBadge: openAlerts > 0 ? openAlerts : undefined,
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <Icon
