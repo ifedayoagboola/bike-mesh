@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Alert, TouchableOpacity } from "react-native";
+import { Text, ScrollView, Alert, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -9,21 +9,48 @@ import { CustomButton, FormField, Loader } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { resendSignupCode } from "../../lib/api";
 
+// Supabase refuses a second email to the same address inside 60 seconds.
 const RESEND_WAIT_SECONDS = 60;
 
 const Verify = () => {
   const router = useRouter();
-  const { email } = useLocalSearchParams();
+  // sendOnOpen=1 when we arrive from sign-in: no email has been sent yet.
+  const { email, sendOnOpen } = useLocalSearchParams();
   const { verifyEmail } = useGlobalContext();
   const [code, setCode] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(RESEND_WAIT_SECONDS);
+  const [isSending, setIsSending] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(sendOnOpen ? 0 : RESEND_WAIT_SECONDS);
+  // What happened to the last email request, always shown so nothing fails silently.
+  const [sendStatus, setSendStatus] = useState(
+    sendOnOpen ? null : { ok: true, text: "Code sent. It can take a minute to arrive." }
+  );
 
   useEffect(() => {
     if (secondsLeft <= 0) return;
     const timer = setTimeout(() => setSecondsLeft(secondsLeft - 1), 1000);
     return () => clearTimeout(timer);
   }, [secondsLeft]);
+
+  const resend = async () => {
+    if (isSending) return;
+    setIsSending(true);
+    try {
+      await resendSignupCode(email);
+      setCode("");
+      setSecondsLeft(RESEND_WAIT_SECONDS);
+      const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      setSendStatus({ ok: true, text: `New code sent at ${time}. Use the newest email.` });
+    } catch (error) {
+      setSendStatus({ ok: false, text: `The email was not sent: ${error.message}` });
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  useEffect(() => {
+    if (sendOnOpen) resend();
+  }, []);
 
   const submit = async () => {
     if (code.trim().length < 6) {
@@ -37,22 +64,14 @@ const Verify = () => {
     } catch (error) {
       Alert.alert(
         "That code did not work",
-        "Check the code and try again, or ask for a new one."
+        "Codes expire and only the newest one works. Check it and try again, or send a new code."
       );
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const resend = async () => {
-    try {
-      await resendSignupCode(email);
-      setCode("");
-      setSecondsLeft(RESEND_WAIT_SECONDS);
-    } catch (error) {
-      Alert.alert("Could not send a new code", error.message);
-    }
-  };
+  const resendBlocked = secondsLeft > 0 || isSending;
 
   return (
     <SafeAreaView className="flex-1">
@@ -95,21 +114,37 @@ const Verify = () => {
         <CustomButton
           title="Confirm"
           handlePress={submit}
-          containerStyles="mb-8"
+          containerStyles="mb-6"
           isLoading={isSubmitting}
         />
 
-        <View className="items-center">
-          {secondsLeft > 0 ? (
-            <Text className="text-gray-400 text-base">
-              You can ask for a new code in {secondsLeft}s
-            </Text>
-          ) : (
-            <TouchableOpacity onPress={resend}>
-              <Text className="text-secondary font-bold text-base">Send a new code</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+        {sendStatus && (
+          <Text
+            className={`text-center text-base mb-2 ${
+              sendStatus.ok ? "text-gray-300" : "text-red-400"
+            }`}
+          >
+            {sendStatus.text}
+          </Text>
+        )}
+
+        <TouchableOpacity
+          className={`items-center py-3 ${resendBlocked ? "opacity-50" : ""}`}
+          onPress={resend}
+          disabled={resendBlocked}
+        >
+          <Text className="text-secondary font-bold text-base">
+            {isSending
+              ? "Sending..."
+              : secondsLeft > 0
+              ? `Send a new code (in ${secondsLeft}s)`
+              : "Send a new code"}
+          </Text>
+        </TouchableOpacity>
+
+        <Text className="text-gray-400 text-sm text-center mt-4">
+          Nothing in your inbox? Check spam and promotions for an email from Supabase Auth.
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
