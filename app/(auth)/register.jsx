@@ -37,11 +37,7 @@ const Register = () => {
         // Straight to the bike list, which opens on "Add your first bike".
         router.replace("/location");
       } else {
-        Alert.alert(
-          "Confirm your email",
-          `We sent a link to ${form.email.trim()}. Tap it, then sign in.`
-        );
-        router.replace("/login");
+        router.push({ pathname: "/verify", params: { email: form.email.trim() } });
       }
     } catch (error) {
       Alert.alert("Could not create account", error.message);

@@ -7,6 +7,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { images } from "../../constants";
 import { CustomButton, FormField, Loader } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import { resendSignupCode } from "../../lib/api";
 
 const Login = () => {
   const router = useRouter();
@@ -29,6 +30,12 @@ const Login = () => {
       await login(form.email, form.password);
       router.replace("/location");
     } catch (error) {
+      if (error.needsEmailConfirmation) {
+        // Account exists but the email code was never entered: send a fresh one.
+        resendSignupCode(form.email).catch(() => {});
+        router.push({ pathname: "/verify", params: { email: form.email.trim() } });
+        return;
+      }
       Alert.alert("Could not sign in", error.message);
     } finally {
       setSubmitting(false);

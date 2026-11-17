@@ -31,7 +31,7 @@ npm install
 
 1. Copy `.env.example` to `.env` and paste the project's anon (publishable) key into `EXPO_PUBLIC_SUPABASE_ANON_KEY`. Find it in the Supabase dashboard under Project Settings, API Keys.
 2. Open the Supabase SQL editor, paste the whole of `supabase/migrations/20261114000000_bikemesh_core.sql` and run it once.
-3. For testing, turn off "Confirm email" under Authentication, Sign In / Providers, Email. With it on, new riders must tap an email link before they can sign in.
+3. New riders confirm their email with a code typed into the app. In Supabase open Authentication, Emails, "Confirm signup" and make the message body show the code with `{{ .Token }}` instead of the link (`{{ .ConfirmationURL }}`). To skip confirmation while testing, turn off "Confirm email" under Authentication, Sign In / Providers, Email.
 
 ### 3. Build and Install Development Build (Required First Step)
 
