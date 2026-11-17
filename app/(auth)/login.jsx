@@ -19,7 +19,7 @@ const Login = () => {
 
   const submit = async () => {
     if (form.email === "" || form.password === "") {
-      Alert.alert("Error", "Please fill in all fields");
+      Alert.alert("Missing details", "Please fill in every field.");
       return;
     }
 
@@ -58,6 +58,7 @@ const Login = () => {
       <ScrollView 
         className="flex-1 px-6"
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ paddingBottom: 40 }}
       >
         {/* Header Section */}
