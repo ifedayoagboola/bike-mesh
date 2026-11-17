@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Link, useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Alert, Image } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { View, Text, Alert, Image } from "react-native";
 
 import { images } from "../../constants";
-import { CustomButton, FormField, Loader } from "../../components";
+import { CustomButton, FormField } from "../../components";
+import AuthScreen from "../../components/AuthScreen";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Register = () => {
@@ -19,7 +18,7 @@ const Register = () => {
   });
 
   const submit = async () => {
-    if (form.username === "" || form.email === "" || form.password === "") {
+    if (form.username.trim() === "" || form.email.trim() === "" || form.password === "") {
       Alert.alert("Missing details", "Please fill in every field.");
       return;
     }
@@ -57,108 +56,71 @@ const Register = () => {
     }
   };
 
+  const header = (
+    <View className="pt-8 pb-8">
+      <View className="items-center mb-6">
+        <View className="w-20 h-20 bg-secondary/20 rounded-3xl items-center justify-center mb-4">
+          <Image source={images.logo} resizeMode="contain" className="w-12 h-12" />
+        </View>
+        <Text className="text-2xl font-bold text-white text-center mb-2">Bike Mesh</Text>
+        <Text className="text-gray-400 text-center text-base">
+          Always know where your bike is
+        </Text>
+      </View>
+      <Text className="text-4xl font-bold text-white mb-2">Create Account</Text>
+      <Text className="text-lg text-gray-300">Pair your bike in the next step</Text>
+    </View>
+  );
 
   return (
-    <SafeAreaView className="flex-1">
-      <Loader isLoading={isSubmitting} />
-      
-      {/* Background Gradient */}
-      <LinearGradient
-        colors={['#0F0F23', '#1A1A2E', '#16213E']}
-        className="absolute w-full h-full"
+    <AuthScreen header={header} isLoading={isSubmitting}>
+      <FormField
+        title="Username"
+        value={form.username}
+        handleChangeText={(e) => setForm({ ...form, username: e })}
+        otherStyles="mb-6"
+        placeholder="Choose a username"
+        maxLength={40}
       />
-      
-      <ScrollView 
-        className="flex-1 px-6"
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingBottom: 40 }}
-      >
-        {/* Header Section */}
-        <View className="pt-8 pb-12">
-          {/* Logo */}
-          <View className="items-center mb-8">
-            <View className="w-20 h-20 bg-secondary/20 rounded-3xl items-center justify-center mb-4">
-              <Image
-                source={images.logo}
-                resizeMode="contain"
-                className="w-12 h-12"
-              />
-            </View>
-            <Text className="text-2xl font-bold text-white text-center mb-2">
-              Bike Mesh
-            </Text>
-            <Text className="text-gray-400 text-center text-base">
-              Always know where your bike is
-            </Text>
-          </View>
 
-          {/* Welcome Text */}
-          <View className="mb-8">
-            <Text className="text-4xl font-bold text-white mb-2">
-              Create Account
-            </Text>
-            <Text className="text-lg text-gray-300">
-              Pair your bike in the next step
-            </Text>
-          </View>
-        </View>
+      <FormField
+        title="Email Address"
+        value={form.email}
+        handleChangeText={(e) => setForm({ ...form, email: e })}
+        otherStyles="mb-6"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoCorrect={false}
+        placeholder="Enter your email"
+      />
 
-        {/* Form Section */}
-        <View className="mb-8">
-          <FormField
-            title="Username"
-            value={form.username}
-            handleChangeText={(e) => setForm({ ...form, username: e })}
-            otherStyles="mb-6"
-            placeholder="Choose a username"
-          />
+      <FormField
+        title="Password"
+        value={form.password}
+        handleChangeText={(e) => setForm({ ...form, password: e })}
+        otherStyles="mb-6"
+        autoCapitalize="none"
+        placeholder="At least 6 characters"
+        returnKeyType="done"
+        onSubmitEditing={submit}
+      />
 
-          <FormField
-            title="Email Address"
-            value={form.email}
-            handleChangeText={(e) => setForm({ ...form, email: e })}
-            otherStyles="mb-6"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            placeholder="Enter your email"
-          />
+      <CustomButton
+        title="Create Account"
+        handlePress={submit}
+        containerStyles="mb-8"
+        isLoading={isSubmitting}
+      />
 
-          <FormField
-            title="Password"
-            value={form.password}
-            handleChangeText={(e) => setForm({ ...form, password: e })}
-            otherStyles="mb-6"
-            placeholder="Create a strong password"
-          />
-
-          <CustomButton
-            title="Create Account"
-            handlePress={submit}
-            containerStyles="mb-8"
-            isLoading={isSubmitting}
-          />
-        </View>
-
-        {/* Terms and Sign In Link */}
-        <View className="items-center">
-          <Text className="text-gray-400 text-center text-sm mb-4 px-4">
-            By creating an account, you agree to our{" "}
-            <Text className="text-secondary font-semibold">Terms of Service</Text>{" "}
-            and{" "}
-            <Text className="text-secondary font-semibold">Privacy Policy</Text>
-          </Text>
-          
-          <Text className="text-gray-400 text-base">
-            Already have an account?{" "}
-            <Link href="/login" className="text-secondary font-bold">
-              Sign in
-            </Link>
-          </Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <View className="items-center">
+        <Text className="text-gray-400 text-base">
+          Already have an account?{" "}
+          <Link href="/login" className="text-secondary font-bold">
+            Sign in
+          </Link>
+        </Text>
+      </View>
+    </AuthScreen>
   );
 };
 

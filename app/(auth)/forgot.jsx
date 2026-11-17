@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, ScrollView, Alert, TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { Text, Alert, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { CustomButton, FormField, Loader } from "../../components";
+import { CustomButton, FormField } from "../../components";
+import AuthScreen from "../../components/AuthScreen";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { sendPasswordResetCode } from "../../lib/api";
 
@@ -78,18 +77,7 @@ const Forgot = () => {
   const resendBlocked = secondsLeft > 0 || isBusy;
 
   return (
-    <SafeAreaView className="flex-1">
-      <Loader isLoading={isBusy} />
-      <LinearGradient
-        colors={["#0F0F23", "#1A1A2E", "#16213E"]}
-        className="absolute w-full h-full"
-      />
-
-      <ScrollView
-        className="flex-1 px-6"
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingBottom: 40 }}
-      >
+    <AuthScreen isLoading={isBusy}>
         <TouchableOpacity className="pt-6 pb-8 self-start" onPress={() => router.back()}>
           <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
         </TouchableOpacity>
@@ -172,8 +160,7 @@ const Forgot = () => {
             </Text>
           </>
         )}
-      </ScrollView>
-    </SafeAreaView>
+    </AuthScreen>
   );
 };
 

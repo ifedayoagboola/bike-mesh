@@ -1,5 +1,4 @@
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 
 const CustomButton = ({
   title,
@@ -74,12 +73,7 @@ const CustomButton = ({
         disabled={isLoading}
         {...args}
       >
-        <LinearGradient
-          colors={isLoading ? ['#00F704', '#00D404'] : ['#00F704', '#00D404']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          className="absolute w-full h-full rounded-2xl"
-        />
+
         
         <View className="flex-row items-center justify-center">
           <Text className={`${getTextStyles()} ${getTextSize()} ${textStyles}`}>

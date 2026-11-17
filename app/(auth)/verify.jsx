@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, ScrollView, Alert, TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { Text, Alert, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { CustomButton, FormField, Loader } from "../../components";
+import { CustomButton, FormField } from "../../components";
+import AuthScreen from "../../components/AuthScreen";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { resendSignupCode } from "../../lib/api";
 
@@ -74,18 +73,7 @@ const Verify = () => {
   const resendBlocked = secondsLeft > 0 || isSending;
 
   return (
-    <SafeAreaView className="flex-1">
-      <Loader isLoading={isSubmitting} />
-      <LinearGradient
-        colors={["#0F0F23", "#1A1A2E", "#16213E"]}
-        className="absolute w-full h-full"
-      />
-
-      <ScrollView
-        className="flex-1 px-6"
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingBottom: 40 }}
-      >
+    <AuthScreen isLoading={isSubmitting}>
         <TouchableOpacity className="pt-6 pb-8 self-start" onPress={() => router.back()}>
           <MaterialCommunityIcons name="arrow-left" size={24} color="#fff" />
         </TouchableOpacity>
@@ -145,8 +133,7 @@ const Verify = () => {
         <Text className="text-gray-400 text-sm text-center mt-4">
           Nothing in your inbox? Check spam and promotions for an email from Supabase Auth.
         </Text>
-      </ScrollView>
-    </SafeAreaView>
+    </AuthScreen>
   );
 };
 
