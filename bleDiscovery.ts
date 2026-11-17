@@ -10,6 +10,7 @@ let manager: BleManager | null = null;
 const listeners = new Set<Listener>();
 let scanning = false;
 let stateSub: { remove: () => void } | null = null;
+const seenInDev = new Set<string>();
 
 // Created lazily so importing this file never touches Bluetooth.
 function ble() {
@@ -37,7 +38,21 @@ function beginScan() {
             scanning = false;
             return;
         }
-        if (!dev?.manufacturerData) return;
+        if (!dev) return;
+        if (__DEV__ && !seenInDev.has(dev.id)) {
+            // Development aid: log each advertiser once, so we can tell a tag that
+            // is silent from one that is advertising something other than iBeacon.
+            seenInDev.add(dev.id);
+            const mfg = dev.manufacturerData
+                ? Buffer.from(dev.manufacturerData, 'base64').toString('hex').slice(0, 50)
+                : '-';
+            console.log(
+                `[ble] ${dev.id} name=${dev.name ?? dev.localName ?? '-'} rssi=${dev.rssi} ` +
+                    `ibeacon=${dev.manufacturerData ? parseBeacon(dev.manufacturerData) ?? 'no' : 'no'} ` +
+                    `services=${(dev.serviceUUIDs ?? []).join(',') || '-'} mfg=${mfg}`
+            );
+        }
+        if (!dev.manufacturerData) return;
         const uuid = parseBeacon(dev.manufacturerData);
         if (!uuid) return;
         const beacon = { uuid, rssi: dev.rssi ?? 0 };
