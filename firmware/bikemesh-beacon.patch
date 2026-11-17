@@ -1,0 +1,61 @@
+--- a/source/app_preinclude.h
++++ b/source/app_preinclude.h
+@@ -69,6 +69,10 @@
+ /*! ADV connectable - Set to 0 if ADV is not connectable*/
+ #define gAppConnectableAdv_d            0
+ 
++/*! BikeMesh: advertise the standard iBeacon frame (Apple 0x004C, type 0x02) so the
++ *  phone app can identify the tag by its 16-byte UUID. 0 = NXP beacon format. */
++#define gIBeaconAdvData_c               1
++
+ /*! *********************************************************************************
+  * 	Framework Configuration
+  ********************************************************************************** */
+--- a/source/beacon.c
++++ b/source/beacon.c
+@@ -163,22 +163,17 @@
+     {
+         case gKBD_EventPressPB1_c:
+         {
++            /* BikeMesh: a button press may start advertising but never stops it.
++             * A tracker tag that can be silenced by a knock is not a tracker. */
+             if (!mAdvertisingOn)
+             {
+                 BleApp_Start();
+             }
+-            else
+-            {
+-                (void)Gap_StopAdvertising();
+-            }
+         }
+         break;
+       case gKBD_EventLongPB1_c:
+       {
+-          if (mAdvertisingOn)
+-          {
+-              (void)Gap_StopAdvertising();
+-          }
++          ; /* BikeMesh: ignored, see above */
+       }
+       break;
+ #if gLoggingActive_d
+@@ -212,6 +207,9 @@
+         {
+             /* Stack configuration */
+             BleApp_Config();
++            /* BikeMesh: a tracker tag must advertise as soon as it has power,
++             * without waiting for a button press. */
++            BleApp_Start();
+         }
+         break;
+ 
+@@ -381,6 +379,9 @@
+                 Led2Flashing();
+                 Led3Flashing();
+                 Led4Flashing();
++                /* BikeMesh: advertising must never stay off. Whatever stopped
++                 * it, start it again. */
++                BleApp_Start();
+             }
+             else
+             {

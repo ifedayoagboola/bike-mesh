@@ -11,6 +11,7 @@ const listeners = new Set<Listener>();
 let scanning = false;
 let stateSub: { remove: () => void } | null = null;
 const seenInDev = new Set<string>();
+const heardInDev = new Map<string, number>();
 
 // Created lazily so importing this file never touches Bluetooth.
 function ble() {
@@ -56,6 +57,11 @@ function beginScan() {
         const uuid = parseBeacon(dev.manufacturerData);
         if (!uuid) return;
         const beacon = { uuid, rssi: dev.rssi ?? 0 };
+        if (__DEV__ && Date.now() - (heardInDev.get(uuid) ?? 0) > 10000) {
+            // Development aid: a heartbeat per tag, to see when one goes quiet.
+            heardInDev.set(uuid, Date.now());
+            console.log(`[ble] tag ${uuid.slice(-8)} heard rssi=${beacon.rssi}`);
+        }
         listeners.forEach((listener) => listener(beacon));
     });
 }
