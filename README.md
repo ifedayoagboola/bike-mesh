@@ -129,6 +129,16 @@ npx expo run:android  # or npx expo run:ios
    npx expo run:android  # or ios
    ```
 
+## 📦 Tester build (installable APK)
+
+A standalone file testers can install without Expo or a cable. From `android/`:
+
+```sh
+./gradlew app:assembleRelease -x lint -PreactNativeArchitectures=armeabi-v7a,arm64-v8a
+```
+
+The file lands in `android/app/build/outputs/apk/release/app-release.apk`. It reads the Supabase URL and key from `.env` at build time. Each tester also needs a tag flashed with the firmware in `firmware/`.
+
 ## 🧭 How it works
 
 - **Sign up**, then pair the tag on your bike: the app lists nearby unclaimed tags (iBeacon frames), closest first. One tag belongs to one account.
