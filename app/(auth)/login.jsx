@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Alert, Image } from "react-native";
+import { View, Text, ScrollView, Alert, Image, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { images } from "../../constants";
@@ -107,9 +107,18 @@ const Login = () => {
             title="Password"
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
-            otherStyles="mb-6"
+            otherStyles="mb-4"
             placeholder="Enter your password"
           />
+
+          <TouchableOpacity
+            className="self-end mb-6"
+            onPress={() =>
+              router.push({ pathname: "/forgot", params: { email: form.email.trim() } })
+            }
+          >
+            <Text className="text-secondary font-semibold text-base">Forgot password?</Text>
+          </TouchableOpacity>
 
           <CustomButton
             title="Sign In"

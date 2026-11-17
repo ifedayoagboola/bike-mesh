@@ -40,6 +40,17 @@ const Register = () => {
         router.push({ pathname: "/verify", params: { email: form.email.trim() } });
       }
     } catch (error) {
+      if (error.accountExists) {
+        Alert.alert(
+          "You already have an account",
+          `${form.email.trim()} is already registered. Sign in, or reset your password if you have forgotten it.`,
+          [
+            { text: "Cancel", style: "cancel" },
+            { text: "Sign in", onPress: () => router.replace("/login") },
+          ]
+        );
+        return;
+      }
       Alert.alert("Could not create account", error.message);
     } finally {
       setIsSubmitting(false);

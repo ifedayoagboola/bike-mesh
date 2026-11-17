@@ -25,6 +25,12 @@ const AuthLayout = () => {
           }}
         />
         <Stack.Screen
+          name="forgot"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="verify"
           options={{
             headerShown: false,

@@ -90,6 +90,10 @@ const GlobalProvider = ({ children }) => {
     setSession(await api.verifySignupCode(email, code));
   }, []);
 
+  const resetPassword = useCallback(async (email, code, newPassword) => {
+    setSession(await api.resetPasswordWithCode(email, code, newPassword));
+  }, []);
+
   const handleLogout = useCallback(async (navigationCallback) => {
     try {
       await api.signOut();
@@ -198,6 +202,7 @@ const GlobalProvider = ({ children }) => {
         login,
         register,
         verifyEmail,
+        resetPassword,
         handleLogout,
         bikes,
         bikesLoaded,
