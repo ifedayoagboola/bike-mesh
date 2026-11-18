@@ -38,3 +38,6 @@ yarn-error.*
 
 # local env (Supabase URL and key)
 .env
+
+# local documents, not part of the app
+app_info/
