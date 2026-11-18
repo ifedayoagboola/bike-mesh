@@ -10,7 +10,7 @@ import { icons, images } from "../constants";
 
 export default function Map3() {
   const mapRef = React.useRef({ PROVIDER_GOOGLE });
-  const GOOGLE_MAPS_APIKEY = "AIzaSyC2npOce5wi7Zm5OMJKFYpRdA32y0XEjyk";
+  const GOOGLE_MAPS_APIKEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY;
   const [origin, setOrigin] = React.useState({
     latitude: 33.640411,
     longitude: -84.419853,

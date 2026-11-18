@@ -81,6 +81,20 @@ def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInRelea
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
+// The Google Maps key is kept out of the repository. It comes from the
+// environment (EAS builds) or from the project's .env file (local builds).
+def googleMapsApiKey() {
+    def name = "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY"
+    def key = System.getenv(name)
+    def envFile = new File(rootDir, "../.env")
+    if (!key && envFile.exists()) {
+        def line = envFile.readLines().find { it.startsWith(name + "=") }
+        if (line) key = line.substring(name.length() + 1).trim()
+    }
+    if (!key) logger.warn("${name} is not set: maps will be blank in this build.")
+    return key ?: ""
+}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -94,6 +108,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.1.0"
+        manifestPlaceholders = [googleMapsApiKey: googleMapsApiKey()]
     }
     signingConfigs {
         debug {

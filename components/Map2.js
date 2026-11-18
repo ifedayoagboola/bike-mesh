@@ -7,7 +7,7 @@ import { icons, images } from "../constants";
 import MapViewDirections from "react-native-maps-directions";
 
 export default function Map2() {
-  const GOOGLE_MAPS_APIKEY = "AIzaSyC2npOce5wi7Zm5OMJKFYpRdA32y0XEjyk";
+  const GOOGLE_MAPS_APIKEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   const initialLocation = {
     latitude: 37.78825,

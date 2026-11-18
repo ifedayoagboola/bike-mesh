@@ -10,7 +10,7 @@ const LONGITUDE = -122.4053769;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const GOOGLE_MAPS_APIKEY = "AIzaSyC2npOce5wi7Zm5OMJKFYpRdA32y0XEjyk";
+const GOOGLE_MAPS_APIKEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 class Example extends Component {
   constructor(props) {
